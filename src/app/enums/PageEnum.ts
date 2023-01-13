@@ -1,4 +1,5 @@
 export enum PageName {
+    START_UP,
     HOME,
     LOGIN,
     SIGNUP,
