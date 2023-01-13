@@ -5,9 +5,9 @@
         <div class="dropdown-menu" *ngIf="!seeAddFamily">
             <label for="family-names"> Select Family</label>
 
-            <select 
+            <select [(ngModel)]="newAccount.familyName"
                 name="family-names" id="family-names">
-                <option *ngFor="let name of familyNames" [value]="name">{{name}}</option>
+                <option  *ngFor="let name of familyNames" [value]="name">{{name}}</option>
             </select>
 
             <p>Don't see your family name? 
@@ -22,19 +22,19 @@
             </p>
             <br>
             <small>Add New Family</small>
-            <input type="text" name="family-name" id="family-signup" placeholder="Family name">
+            <input [(ngModel)]="newAccount.familyName" type="text" name="family-name" id="family-signup" placeholder="Family name" >
             
         </div>
         
 
         <!-- basic inputs -->
         <small>Email</small>
-        <input type="text" name="email" id="email-signup" placeholder="email">
+        <input type="text" name="email" id="email-signup" placeholder="email" [(ngModel)]="newAccount.email">
 
         <small>password</small>
-        <input type="password" name="password" id="password-signup" placeholder="password">
+        <input [(ngModel)]="newAccount.password" type="password" name="password" id="password-signup" placeholder="password" >
 
-        <button type="submit"> Log In</button>
+        <button type="submit" (click)="createAccount()"> Sign Up</button>
         <p>Already have an account?
             <button id="signup-button"
             (click)="ui.changePage(pageName.LOGIN)">Log In</button>
