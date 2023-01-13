@@ -1,1 +1,12 @@
-<p>login works!</p>
+<div class="login-container">
+    <div class="login-wrapper">
+        <small>Email</small>
+        <input type="text" name="email" id="email-login" placeholder="email">
+        <small>password</small>
+        <input type="password" name="password" id="password-login" placeholder="password">
+        <button type="submit"> Log In</button>
+        <p>Don't have an account? <button id="signup-button"
+            (click)="ui.changePage(pageName.SIGNUP)">Sign Up</button></p>
+        
+    </div>
+</div>

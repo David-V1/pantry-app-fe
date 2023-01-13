@@ -1,1 +1,44 @@
-<p>signup works!</p>
+<div class="signup-container">
+    <div class="signup-wrapper">
+
+        <!-- Family Dropdown -->
+        <div class="dropdown-menu" *ngIf="!seeAddFamily">
+            <label for="family-names"> Select Family</label>
+
+            <select 
+                name="family-names" id="family-names">
+                <option *ngFor="let name of familyNames" [value]="name">{{name}}</option>
+            </select>
+
+            <p>Don't see your family name? 
+            <button id="new-family-button" (click)="toggleAddFamily()">Add New Family</button>
+            </p>
+        </div>
+
+        <!-- Add New Family name -->
+        <div class="add-family-container" *ngIf="seeAddFamily">
+            <p>See dropdown-menu
+            <button id="new-family-button" (click)="toggleAddFamily()">dropdown-menu</button>
+            </p>
+            <br>
+            <small>Add New Family</small>
+            <input type="text" name="family-name" id="family-signup" placeholder="Family name">
+            
+        </div>
+        
+
+        <!-- basic inputs -->
+        <small>Email</small>
+        <input type="text" name="email" id="email-signup" placeholder="email">
+
+        <small>password</small>
+        <input type="password" name="password" id="password-signup" placeholder="password">
+
+        <button type="submit"> Log In</button>
+        <p>Already have an account?
+            <button id="signup-button"
+            (click)="ui.changePage(pageName.LOGIN)">Log In</button>
+        </p>
+
+    </div>
+</div>

@@ -11,7 +11,7 @@ export class UiService {
 
   constructor(private http: HttpClient) {
     //local storage persist page 
-    // localStorage.getItem('pageName') ? this.pageName = Number(localStorage.getItem('pageName')) : this.pageName = PageName.START_UP;
+    localStorage.getItem('pageName') ? this.pageName = Number(localStorage.getItem('pageName')) : this.pageName = PageName.START_UP;
   }
 
   public changePage(page: PageName): void {
