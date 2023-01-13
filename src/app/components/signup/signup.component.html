@@ -34,7 +34,7 @@
         <small>password</small>
         <input [(ngModel)]="newAccount.password" type="password" name="password" id="password-signup" placeholder="password" >
 
-        <button type="submit" (click)="createAccount()"> Sign Up</button>
+        <button type="submit" (click)="createAccount(); ui.changePage(pageName.LOGIN)"> Sign Up</button>
         <p>Already have an account?
             <button id="signup-button"
             (click)="ui.changePage(pageName.LOGIN)">Log In</button>
@@ -42,3 +42,5 @@
 
     </div>
 </div>
+
+<button (click)="test()">TEST_BUTTON</button>
