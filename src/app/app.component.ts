@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UiService } from './services/ui.service';
+import { PageName } from './enums/PageEnum';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'capstone-pantry-app-fe';
+  public pageName = PageName;
+
+  constructor(public ui: UiService) { }
+  
 }
