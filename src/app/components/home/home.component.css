@@ -1,0 +1,13 @@
+.home-header-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 5%;
+}
+
+.pantry-wrapper, .recipe-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5%;
+}
+

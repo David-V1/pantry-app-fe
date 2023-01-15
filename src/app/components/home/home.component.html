@@ -1,1 +1,27 @@
-<p>home works!</p>
+<div class="home-header-container">
+    <div class="btn-wrapper">
+        <button type="button" (click)="ui.changePage(pageName.START_UP); ui.onLogout()">Log Out</button>
+    </div>
+
+    <div class="profile-wrapper">
+        <div class="profile-image">
+            <mat-icon>account_circle</mat-icon>
+        </div>
+    </div>
+</div>
+
+<div class="pantry-container">
+    <div class="pantry-wrapper">
+        <mat-icon >storage</mat-icon>
+        <h3 (click)="ui.changePage(pageName.PANTRY)">Pantry</h3>
+    </div>
+</div>
+
+
+<div class="recipes-container">
+    <div class="recipe-wrapper">
+        <h4>Family Recipes</h4>
+        <button (click)="onViewRecipes()">View All Recipes!</button>
+    </div>
+
+</div>

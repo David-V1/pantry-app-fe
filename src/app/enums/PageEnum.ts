@@ -9,4 +9,5 @@ export enum PageName {
     RECIPE,
     RECIPE_VIEW,
     RECIPE_ADD,
+    INGREDIENT_ADD,
 }

@@ -55,8 +55,5 @@ export class SignupComponent {
     this.newAccount.familyName = '';
   }
 
-  test() {
-    console.log(this.familyNames)
-  }
-
+  
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,22 @@ import { PageName } from 'src/app/enums/PageEnum';
 })
 export class LoginComponent {
   public pageName = PageName;
+  public newLogin = {
+    email: '',
+    password: ''
+  }
 
-  constructor(public ui: UiService) { }
+  constructor(public ui: UiService, public accountService: AccountService) { }
+
+  onLogin(): void {
+    this.accountService.getAccount(this.newLogin.email, this.newLogin.password);
+    this.ui.changePage(PageName.HOME);
+    this.resetInputFields();
+  }
+
+  resetInputFields(): void {
+    this.newLogin.email = '';
+    this.newLogin.password = '';
+  }
 
 }

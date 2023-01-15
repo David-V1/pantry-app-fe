@@ -1,1 +1,22 @@
-<p>recipe-add works!</p>
+<div class="new-Recipe-header">
+    <button (click)="ui.changePage(pageName.RECIPE)">BACK</button>
+    <button (click)="onAddRecipe()">Save & go to Ingredients</button>
+</div>
+
+<div class="new-recipe-container">
+    <h2>New Recipe</h2>
+    <div class="new-recipe">
+        <div class="recipe-inpput">
+            <label for="recipeName">Recipe Name</label>
+            <input type="text" id="recipeName" placeholder="Recipe Name" [(ngModel)]="newRecipe.name">
+        </div>
+        <div class="recipe-inpput">
+            <label for="recipeImage">Recipe Image</label>
+            <input type="text" id="recipeImage" placeholder="Image URL" [(ngModel)]="newRecipe.image">
+        </div>
+        <div class="recipe-inpput">
+            <label for="recipeInstructions">Recipe Instructions</label>
+            <input type="text" id="recipeInstructions" placeholder="Recipe Instructions" [(ngModel)]="newRecipe.instructions">
+        </div>
+    </div>
+</div>
