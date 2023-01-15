@@ -1,1 +1,32 @@
-<p>recipe-view works!</p>
+<div class="recipeView-header">
+    <button (click)="ui.changePage(pageName.RECIPE)"> All Recipes</button>
+    <mat-icon>delete</mat-icon>
+    <button>Cook Recipe!</button>
+</div>
+
+<div class="recipe-container" *ngIf="recipeService.recipe$ | async as recipe">
+    <h1>{{recipe.name}}</h1>
+    
+    <div class="image-container">
+        <img src="{{recipe.image}}" alt="selected Image">
+    </div>
+
+    <div class="ingredients-container">
+        <ng-container *ngIf="recipeService.ingredients$ | async as recipeIngredients">
+            <ng-container *ngFor="let ingredient of recipeIngredients">
+                <ng-container *ngIf="recipeService.selectedRecipe === ingredient.recipes.id">
+                    <ul>
+                        <li>{{ingredient.name}}</li>
+                    </ul>
+                </ng-container>
+                
+            </ng-container>
+        </ng-container>
+        
+    </div>
+
+    <div class="instructions-container">
+        <h3>Instructions</h3>
+        <p>{{recipe.instructions}}</p>
+    </div>
+</div>

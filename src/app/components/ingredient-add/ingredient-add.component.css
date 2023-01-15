@@ -1,0 +1,11 @@
+.ingredient {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.amount-selection-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

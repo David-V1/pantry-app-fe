@@ -1,10 +1,10 @@
 <div class="login-container">
     <div class="login-wrapper">
         <small>Email</small>
-        <input type="text" name="email" id="email-login" placeholder="email">
+        <input type="text" name="email" id="email-login" placeholder="email" [(ngModel)]="newLogin.email">
         <small>password</small>
-        <input type="password" name="password" id="password-login" placeholder="password">
-        <button type="submit"> Log In</button>
+        <input type="password" name="password" id="password-login" placeholder="password" [(ngModel)]="newLogin.password">
+        <button type="submit" (click)="onLogin()"> Log In</button>
         <p>Don't have an account? <button id="signup-button"
             (click)="ui.changePage(pageName.SIGNUP)">Sign Up</button></p>
         

@@ -1,1 +1,14 @@
-<p>pantry works!</p>
+<div class="pantry-header">
+    <mat-icon (click)="ui.changePage(pageName.HOME)">home</mat-icon>
+    <button (click)="ui.changePage(pageName.ITEM_ADD)">+ Add Item</button>
+</div>
+
+<div class="pantry-container">
+    <div class="items-wrapper">
+        <h2>All Pantry Items</h2>
+    </div>
+
+    <div class="category-wrapper">
+        <h2>Category Items</h2>
+    </div>
+</div>
