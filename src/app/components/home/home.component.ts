@@ -29,4 +29,10 @@ export class HomeComponent {
     this.ui.changePage(PageName.RECIPE);
   }
 
+  public onSelectRecipe(id: number) {
+    // this.recipeService.selectedRecipe = id;
+    this.recipeService.getRecipeById(id);
+    this.ui.changePage(this.pageName.RECIPE_VIEW)
+  }
+
 }

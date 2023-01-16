@@ -1,10 +1,11 @@
 <div class="recipeView-header">
-    <button (click)="ui.changePage(pageName.RECIPE)"> All Recipes</button>
-    <mat-icon>delete</mat-icon>
-    <button>Cook Recipe!</button>
+    <!-- removes Id state - localStorage -->
+    <button (click)="goBackClick()"> All Recipes</button>
 </div>
 
 <div class="recipe-container" *ngIf="recipeService.recipe$ | async as recipe">
+    <mat-icon (click)="deleteRecipe(recipe)">delete</mat-icon>
+    <button>Cook Recipe!</button>
     <h1>{{recipe.name}}</h1>
     
     <div class="image-container">
@@ -14,7 +15,8 @@
     <div class="ingredients-container">
         <ng-container *ngIf="recipeService.ingredients$ | async as recipeIngredients">
             <ng-container *ngFor="let ingredient of recipeIngredients">
-                <ng-container *ngIf="recipeService.selectedRecipe === ingredient.recipes.id">
+                <!-- <ng-container *ngIf="recipeService.selectedRecipe === ingredient.recipes.id"> -->
+                <ng-container *ngIf="currentRecipeId === ingredient.recipes.id">
                     <ul>
                         <li>{{ingredient.name}}</li>
                     </ul>

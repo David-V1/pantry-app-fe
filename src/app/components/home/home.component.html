@@ -27,9 +27,10 @@
     <div class="hero-recipes">
         <div class="hero-recipe" *ngFor="let recipe of heroRecipes">
             <div class="hero-recipe-image">
-                <img src="{{recipe.image}}" alt="recipe image">
+                <img src="{{recipe.image}}" alt="recipe image" (click)="onSelectRecipe(recipe.id!)">
             </div>
             <div class="hero-recipe-info">
+                <h4>{{recipe.name}}</h4>
             </div>
         </div>
     </div>

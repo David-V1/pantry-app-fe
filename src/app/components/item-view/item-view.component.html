@@ -1,11 +1,11 @@
-<div class="item-view-header">
-    <mat-icon>delete</mat-icon>
-    <mat-icon>edit</mat-icon>
-    <mat-icon>add</mat-icon>
-    <mat-icon (click)="goBackClick()">arrow_back</mat-icon>
-</div>
+<mat-icon (click)="goBackClick()">arrow_back</mat-icon>
 
 <div class="item-container" *ngIf="itemService.item$ | async as item">
+    <div class="item-view-header">
+        <mat-icon (click)="deleteItem(item)">delete</mat-icon>
+        <mat-icon>edit</mat-icon>
+        
+    </div>
     <div class="item-hero-section">
         <h1>{{item.name}}</h1>
         <img src="{{item.image}}" alt="item image">
