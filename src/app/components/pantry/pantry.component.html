@@ -6,9 +6,28 @@
 <div class="pantry-container">
     <div class="items-wrapper">
         <h2>All Pantry Items</h2>
+        <div class="pantry-items-container" *ngIf="itemService.items$ | async as pantryItems">
+            <ng-container *ngFor="let item of pantryItems">
+                <div class="item-card">
+                    <div class="item-img" (click)="onSelectItem(item)">
+                        <img src="{{item.image}}" alt="item image">
+                    </div>
+                    <h6>{{item.name}}</h6>
+                </div>
+            </ng-container>
+        </div>
     </div>
 
-    <div class="category-wrapper">
-        <h2>Category Items</h2>
+    <div class="category-container">
+        <div class="category-wrapper">
+            <h2>Category Items</h2>
+            <div class="pantry-category-container" *ngIf="items">
+                <ng-container *ngFor="let category of getItemCategories()">
+                    <div class="category-card">
+                        <h6>{{category}}</h6>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
     </div>
 </div>

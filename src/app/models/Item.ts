@@ -4,6 +4,7 @@ export interface Item {
     name: string;
     image: string;
     weight: number;
+    metric: string;
     quantity: number;
     calories: number;
     category: string;

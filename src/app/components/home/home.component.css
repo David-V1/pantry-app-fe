@@ -18,3 +18,9 @@
     margin: 5%;
 }
 
+h3:hover {
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+}

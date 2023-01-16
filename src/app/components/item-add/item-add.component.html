@@ -1,1 +1,47 @@
-<p>item-add works!</p>
+<button (click)="ui.changePage(pageName.PANTRY)">Pantry</button>
+<div class="main-container">
+    <p>New Item</p>
+
+    <div class="i-name">
+        <input type="text" placeholder="Name of Item" [(ngModel)]="newItem.name">
+    </div>
+    <!-- Weight or Quantity selection -->
+    <div class="i-weight-metric">
+        <div class="amount-selection-container">
+            <div class="metric-wrapper" *ngIf="!slider">
+                <small>Enter weight</small>
+                <input type="number" name="amount" id="i-amount" placeholder="amount" [(ngModel)]="newItem.weight">
+                <label for="metricUnit">Select Unit
+                    <select name="metric" [(ngModel)]="newItem.metric">
+                        <option *ngFor="let unit of metricUnits" [value]="unit">{{unit}}</option>
+                    </select>
+                </label>
+            </div>
+            <mat-slide-toggle [(ngModel)]="slider">Slide for {{slider ? 'Units' : 'Quantity'}} instead </mat-slide-toggle>
+            <div class="qty-wrapper" *ngIf="slider">
+                <small>Enter Quantity</small>
+                <input type="number" placeholder="Enter Quantity" value="" [(ngModel)]="newItem.quantity">
+            </div>
+        </div>
+    </div>
+
+    <div class="i-calories">
+        <input type="text" name="calories" placeholder="Calories" [(ngModel)]="newItem.calories">
+    </div>
+
+    <div class="i-image">
+        <input type="url" name="image" placeholder="Image URL" [(ngModel)]="newItem.image">
+    </div>
+
+    <div class="i-category">
+        <label for="category">Select Category
+            <select name="category" [(ngModel)]="newItem.category">
+                <option *ngFor="let category of currentCategories" [value]="category">{{category}}</option>
+            </select>
+        </label>
+    </div>
+
+    <button type="submit" (click)="onAddItem()"> Add New Item</button>
+</div>
+
+<button (click)="test()">Testbutton</button>
