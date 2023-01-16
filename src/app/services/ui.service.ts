@@ -11,6 +11,8 @@ import { Account } from '../models/Account';
 export class UiService {
   public pageName: PageName;
   public isLoggedIn = false;
+  // general FDA food groups
+  public foodGroups = ['Dairy & Alternatives', 'Fruits', 'Grains', 'Meat, Fish, Egg & Alternatives', 'Vegetables', 'Fat/Oil, Salt & Sugar', 'Other'];
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar) {
     //local storage persist page 

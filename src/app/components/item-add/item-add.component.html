@@ -13,7 +13,7 @@
                 <input type="number" name="amount" id="i-amount" placeholder="amount" [(ngModel)]="newItem.weight">
                 <label for="metricUnit">Select Unit
                     <select name="metric" [(ngModel)]="newItem.metric">
-                        <option *ngFor="let unit of metricUnits" [value]="unit">{{unit}}</option>
+                        <option *ngFor="let unit of metricUnits" type="text" [value]="unit">{{unit}}</option>
                     </select>
                 </label>
             </div>
@@ -26,7 +26,7 @@
     </div>
 
     <div class="i-calories">
-        <input type="text" name="calories" placeholder="Calories" [(ngModel)]="newItem.calories">
+        <input type="number" name="calories" placeholder="Calories" [(ngModel)]="newItem.calories">
     </div>
 
     <div class="i-image">
@@ -36,12 +36,10 @@
     <div class="i-category">
         <label for="category">Select Category
             <select name="category" [(ngModel)]="newItem.category">
-                <option *ngFor="let category of currentCategories" [value]="category">{{category}}</option>
+                <option *ngFor="let category of ui.foodGroups" [value]="category">{{category}}</option>
             </select>
         </label>
     </div>
 
     <button type="submit" (click)="onAddItem()"> Add New Item</button>
 </div>
-
-<button (click)="test()">Testbutton</button>

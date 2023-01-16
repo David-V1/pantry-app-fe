@@ -10,7 +10,7 @@
             <ng-container *ngFor="let item of pantryItems">
                 <div class="item-card">
                     <div class="item-img" (click)="onSelectItem(item)">
-                        <img src="{{item.image}}" alt="item image">
+                        <img src="{{item.image}}" alt="item image" height="150" >
                     </div>
                     <h6>{{item.name}}</h6>
                 </div>
@@ -22,7 +22,7 @@
         <div class="category-wrapper">
             <h2>Category Items</h2>
             <div class="pantry-category-container" *ngIf="items">
-                <ng-container *ngFor="let category of getItemCategories()">
+                <ng-container *ngFor="let category of ui.foodGroups">
                     <div class="category-card">
                         <h6>{{category}}</h6>
                     </div>
