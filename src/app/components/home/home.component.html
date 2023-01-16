@@ -23,5 +23,14 @@
         <h4>Family Recipes</h4>
         <button (click)="onViewRecipes()">View All Recipes!</button>
     </div>
+    <div class="hero-recipes">
+        <div class="hero-recipe" *ngFor="let recipe of heroRecipes">
+            <div class="hero-recipe-image">
+                <img src="{{recipe.image}}" alt="recipe image">
+            </div>
+            <div class="hero-recipe-info">
+            </div>
+        </div>
+    </div>
 
 </div>
