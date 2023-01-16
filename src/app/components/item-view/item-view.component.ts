@@ -10,15 +10,20 @@ import { ItemService } from 'src/app/services/item.service';
   styleUrls: ['./item-view.component.css']
 })
 export class ItemViewComponent {
-public pageName = PageName;
+  public pageName = PageName;
 
-constructor(public ui: UiService, public itemService: ItemService) { 
-  this.itemService.getItemById(Number(localStorage.getItem('selectedItemId')));
-}
+  constructor(public ui: UiService, public itemService: ItemService) { 
+    this.itemService.getItemById(Number(localStorage.getItem('selectedItemId')));
+  }
 
-goBackClick(): void {
-  this.ui.changePage(this.pageName.PANTRY);
-  localStorage.removeItem('selectedItemId');
-}
+  goBackClick(): void {
+    this.ui.changePage(this.pageName.PANTRY);
+    localStorage.removeItem('selectedItemId');
+  }
+
+  public deleteItem(item:Item): void{
+    this.itemService.deleteItemById(item);
+    this.ui.changePage(this.pageName.PANTRY);
+  }
 
 }

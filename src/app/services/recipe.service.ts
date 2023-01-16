@@ -15,7 +15,8 @@ export class RecipeService {
   public pageName = PageName;
   public recipes: Recipe[] = [];
   public ingredients: any[] = [];
-  selectedRecipe: number | null = null;
+  // selectedRecipe: number | null = null;
+  selectedRecipe = Number(localStorage.getItem('selectedRecipeId')) || null;
 
   private recipeSubject: Subject<Recipe> = new Subject();
   public recipe$: Observable<Recipe> = this.recipeSubject.asObservable();
@@ -80,6 +81,8 @@ export class RecipeService {
   }
 
   public getRecipeById(id: number): void {
+    //persist selected recipe
+    localStorage.setItem('selectedRecipeId', JSON.stringify(id));
     this.http.get<Recipe>(`${this.url}/${id}`)
     .pipe(take(1))
     .subscribe({
@@ -114,6 +117,20 @@ export class RecipeService {
 
   // PUT
   // DELETE
+  public deleteRecipeById(recipe:Recipe): void{
+    this.http.delete<Recipe>(`${this.url}/${recipe.id}`)
+    .pipe(take(1))
+    .subscribe({
+      next: () => {
+        this.ui.openSnackBar(`Recipe '${recipe.name}' deleted`);
+        this.getRecipes();
+      },
+      error: err => {
+        console.log(err);
+        this.ui.onError('Error deleting recipe');
+      }
+    })
+  }
 
 
 

@@ -18,6 +18,11 @@
     margin: 5%;
 }
 
+.hero-recipe-image:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
 h3:hover {
     cursor: pointer;
     font-size: 2rem;

@@ -76,5 +76,15 @@ export class ItemService {
 
   //PUT
   //DELETE
+  public deleteItemById(item:Item): void {
+    this.http.delete<Item>(`${this.url}/${item.id}`)
+    .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.getAllItems();
+          this.ui.openSnackBar(`${item.name} deleted`);
+        }
+      })
+    }
 
 }

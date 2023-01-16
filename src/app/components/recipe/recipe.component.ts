@@ -22,7 +22,7 @@ export class RecipeComponent {
     }
   
     public onSelectRecipe(id: number) {
-      this.recipeService.selectedRecipe = id;
+      // this.recipeService.selectedRecipe = id;
       this.recipeService.getRecipeById(id);
       this.ui.changePage(this.pageName.RECIPE_VIEW)
     }

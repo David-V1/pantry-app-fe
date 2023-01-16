@@ -29,15 +29,21 @@ export class IngredientAddComponent {
 
   addIngredient() {
     this.addedIngredients.push(this.newIngredient);
-    if (this.recipeService.selectedRecipe === null){
+    // if (this.recipeService.selectedRecipe === null){
+    if (Number(localStorage.getItem('selectedRecipeId')) === null){
       this.ui.onError('Recipe not selected')
       return;
     };
 
-    this.recipeService.addIngredientsToRecipe(this.recipeService.selectedRecipe!, this.newIngredient);
+    // this.recipeService.addIngredientsToRecipe(this.recipeService.selectedRecipe!, this.newIngredient);
+    this.recipeService.addIngredientsToRecipe(Number(localStorage.getItem('selectedRecipeId')), this.newIngredient);
     this.resetIngredient();
   }
 
+  public goBackClick(): void {
+    this.ui.changePage(this.pageName.RECIPE);
+    localStorage.removeItem('selectedRecipeId');
+  }
 
   resetIngredient() {
     this.newIngredient = {
