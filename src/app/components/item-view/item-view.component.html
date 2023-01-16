@@ -1,1 +1,31 @@
-<p>item-view works!</p>
+<div class="item-view-header">
+    <mat-icon>delete</mat-icon>
+    <mat-icon>edit</mat-icon>
+    <mat-icon>add</mat-icon>
+    <mat-icon (click)="goBackClick()">arrow_back</mat-icon>
+</div>
+
+<div class="item-container" *ngIf="itemService.item$ | async as item">
+    <div class="item-hero-section">
+        <h1>{{item.name}}</h1>
+        <img src="{{item.image}}" alt="item image">
+    </div>
+    <div class="item-body">
+        <div class="item-weight">
+            <h2>Description</h2>
+            <p>{{item.weight}}</p>
+        </div>
+        <div class="item-calories">
+            <h2> Calories</h2>
+            <p>{{item.calories}}</p>
+        <div class="item-quantity">
+            <h2>Quantity</h2>
+            <p>{{item.quantity}}</p>
+        </div>
+        <div class="item-category">
+            <h2>Category</h2>
+            <p>{{item.category}}</p>
+        </div>
+        
+    </div>
+</div>

@@ -41,5 +41,11 @@ export class UiService {
       duration: 3000
     })
   }
+
+  public openSnackBar(msg: string): void {
+    this._snackBar.open(msg, "close", {
+      duration: 4000
+    })
+  }
   
 }
