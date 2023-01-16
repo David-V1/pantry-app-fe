@@ -9,7 +9,7 @@
     <h1>{{recipe.name}}</h1>
     
     <div class="image-container">
-        <img src="{{recipe.image}}" alt="selected Image">
+        <img src="{{recipe.image}}" height="350" alt="selected Image">
     </div>
 
     <div class="ingredients-container">
@@ -18,7 +18,7 @@
                 <!-- <ng-container *ngIf="recipeService.selectedRecipe === ingredient.recipes.id"> -->
                 <ng-container *ngIf="currentRecipeId === ingredient.recipes.id">
                     <ul>
-                        <li>{{ingredient.name}}</li>
+                        <li>{{ingredient.name}} | {{ingredient.weight ? ingredient.weight: ingredient.quantity }} {{ingredient.weight? ingredient.metric : ''}}</li>
                     </ul>
                 </ng-container>
                 

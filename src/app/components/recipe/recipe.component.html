@@ -11,7 +11,7 @@
                 <div class="card" *ngFor="let recipe of recipes" >
                     <h3>{{recipe.name}}</h3>
                     <div class="img-wrapper">
-                        <img src="{{recipe.image}}" alt="recipe image" (click)="onSelectRecipe(recipe.id!)">
+                        <img src="{{recipe.image}}" alt="recipe image" height="150" (click)="onSelectRecipe(recipe.id!)">
                     </div>
                     <div class="subtitle-container" >
                         <small (click)="onSelectRecipe(recipe.id!); ui.changePage(pageName.INGREDIENT_ADD)">Click to add ingredients</small>
