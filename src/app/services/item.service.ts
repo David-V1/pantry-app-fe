@@ -11,7 +11,7 @@ import { BehaviorSubject, map, Observable, Subject, take, tap } from 'rxjs';
 export class ItemService {
   public pageName = PageName;
   public items: Item[] = [];
-
+  
   private itemSubject: Subject<Item> = new Subject<Item>();
   public item$: Observable<Item> = this.itemSubject.asObservable();
 
@@ -75,6 +75,21 @@ export class ItemService {
   }
 
   //PUT
+  public updateItemById(item: Item): void {
+    this.http.put<Item>(`${this.url}/${item.id}`, item)
+    .pipe(take(1))
+    .subscribe({
+      next: () => {
+        this.getAllItems();
+        this.ui.openSnackBar('Item updated OK');
+      },
+      error: err => {
+        console.log(err);
+        this.ui.onError('Error updating item');
+      }
+    })
+  }
+
   //DELETE
   public deleteItemById(item:Item): void {
     this.http.delete<Item>(`${this.url}/${item.id}`)

@@ -3,16 +3,17 @@
 <div class="item-container" *ngIf="itemService.item$ | async as item">
     <div class="item-view-header">
         <mat-icon (click)="deleteItem(item)">delete</mat-icon>
-        <mat-icon>edit</mat-icon>
+        <button (click)="openDialog(item)"><mat-icon>edit</mat-icon></button>
+        
         
     </div>
     <div class="item-hero-section">
         <h1>{{item.name}}</h1>
-        <img src="{{item.image}}" alt="item image">
+        <img src="{{item.image}}" alt="item image" height="150" >
     </div>
     <div class="item-body">
         <div class="item-weight">
-            <h2>Description</h2>
+            <h2>Weight</h2>
             <p>{{item.weight}}</p>
         </div>
         <div class="item-calories">

@@ -18,15 +18,15 @@ export class PantryComponent {
     this.itemService.getAllItems();
   }
   
-  public getItemCategories(): string[] {
-    const categories: string[] = [];
-    this.items.forEach(item => {
-      if (!categories.includes(item.category)) {
-        categories.push(item.category);
-      }
-    });
-    return categories;
-  }
+  // public getItemCategories(): string[] {
+  //   const categories: string[] = [];
+  //   this.items.forEach(item => {
+  //     if (!categories.includes(item.category)) {
+  //       categories.push(item.category);
+  //     }
+  //   });
+  //   return categories;
+  // }
 
   public onSelectItem(item: Item): void {
     this.itemService.getItemById(item.id!);

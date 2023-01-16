@@ -44,13 +44,21 @@ export class ItemAddComponent implements OnInit {
 
    }
 
-   test(): void {
-      console.log(this.currentCategories);
-    }
+   
 
     
     public onAddItem(): void {
       console.log(this.newItem);
+      if (this.newItem.name === '' ) return this.ui.onError('Please Enter a name for the item');
+      if (this.newItem.weight <= 0 && this.newItem.metric === '' && this.newItem.quantity === 0) return this.ui.onError('Please enter a measurement for the item');
+      if (this.newItem.weight !== 0 && this.newItem.metric === '') return this.ui.onError('Please select a metric for the item');
+
+      if (this.newItem.weight <= 0 ) return this.ui.onError('Weight must be greater than 0');
+      if (this.newItem.quantity < 0 ) return this.ui.onError('Quantity must be greater than 0');
+      if (this.newItem.calories <= 0 || this.newItem.calories === undefined ) return this.ui.onError('Calories must be greater than 0');
+      if (this.newItem.category === '') return this.ui.onError('Please select a category for the item');
+
+     
       this.itemService.addItem(this.newItem);
       this.resetFields();
     }

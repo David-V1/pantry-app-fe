@@ -6,6 +6,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon'
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 
 
 import { AppComponent } from './app.component';
@@ -21,6 +25,7 @@ import { RecipeViewComponent } from './components/recipe-view/recipe-view.compon
 import { StartUpComponent } from './components/start-up/start-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IngredientAddComponent } from './components/ingredient-add/ingredient-add.component';
+import { ItemEditComponent } from './components/item-edit/item-edit.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +40,8 @@ import { IngredientAddComponent } from './components/ingredient-add/ingredient-a
     RecipeAddComponent,
     RecipeViewComponent,
     StartUpComponent,
-    IngredientAddComponent
+    IngredientAddComponent,
+    ItemEditComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +51,11 @@ import { IngredientAddComponent } from './components/ingredient-add/ingredient-a
     MatSnackBarModule,
     MatIconModule,
     MatSlideToggleModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
