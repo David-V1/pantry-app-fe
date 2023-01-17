@@ -25,6 +25,10 @@ export class RecipeViewComponent implements OnInit, OnDestroy{
 
   arrayOfMatchingIngredientIds: number[] = [];
 
+  // Recipe Update
+  updatedRecipe = {} as Recipe;
+  showUpdateRecipe = false;
+
   //Ingredient Update
   updatedIngredient = {} as Ingredient;
   slider = false;
@@ -156,9 +160,19 @@ export class RecipeViewComponent implements OnInit, OnDestroy{
     this.currentIngredientId = ingredientid;
     this.edit = !this.edit;
   }
-  
 
-  public onUpdate(): void {
+  showEditRecipe(): void{
+    this.showUpdateRecipe = !this.showUpdateRecipe;
+  }
+  
+  public onUpdateRecipe(recipeId: number): void {
+    // this.recipeService.updateRecipe(recipe);
+    console.log(this.updatedRecipe)
+    this.recipeService.updateRecipe(recipeId, this.updatedRecipe);
+    this.showUpdateRecipe = !this.showUpdateRecipe;
+  }
+
+  public onUpdateIngredients(): void {
     this.edit = !this.edit;
     console.log(this.currentIngredientId)
     console.log(this.updatedIngredient)
