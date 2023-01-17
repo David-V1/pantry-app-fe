@@ -5,6 +5,7 @@
 
 <div class="recipe-container" *ngIf="recipeService.recipe$ | async as recipe">
     <mat-icon (click)="deleteRecipe(recipe)">delete</mat-icon>
+    <button >Edit Recipe</button>
     <button (click)="onCookRecipe()">Cook Recipe!</button>
     <h1>{{recipe.name}}</h1>
     

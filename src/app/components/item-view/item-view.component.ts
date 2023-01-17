@@ -34,14 +34,14 @@ export class ItemViewComponent {
 
     //values from dialog
     dialogRef.afterClosed().subscribe(result => {
-      console.log(item)
-      console.log(result)
       // Clicks outside dialog box
       if (result === undefined) return;
       if (result.weight === undefined && result.metric) return this.ui.onError('Please enter a weight');
       if (result.metric === undefined && result.weight) return this.ui.onError('Please enter a unit of measurement');
-      if (result.name === undefined || result.calories === undefined || result.category === undefined) return this.ui.onError('Please fill out all fields');
-      // if (result.name === undefined) return;
+      if (result.name === undefined) return this.ui.onError('Please Enter a name');
+      if (result.calories === undefined) return this.ui.onError('Please enter a calorie count');
+      if (result.category === undefined) return this.ui.onError('Please enter a category');
+
       const newUpdatedItem: Item = {
         ...item,
         name: result.name,
@@ -55,6 +55,7 @@ export class ItemViewComponent {
       this.itemService.updateItemById(newUpdatedItem);
       console.log(`Dialog result: ${newUpdatedItem}`);
     });
+    this.ui.changePage(this.pageName.PANTRY);
 
   }
 

@@ -103,7 +103,7 @@ export class ItemService {
     }
 
   public deletePantryItemsOnCook(items: Item[]): void {
-    if (items.length === 0) return this.ui.onError('Something went wrong');
+    if (items.length === 0) return this.ui.onError('You don\'t have any items in your pantry');
     items.forEach(item => {
       this.deleteItemById(item);
       
