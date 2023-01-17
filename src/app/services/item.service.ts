@@ -106,7 +106,7 @@ export class ItemService {
     if (items.length === 0) return this.ui.onError('Something went wrong');
     items.forEach(item => {
       this.deleteItemById(item);
-      // console.log('deleting item: ', item.id)
+      
     })
   }
 
