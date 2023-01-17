@@ -14,7 +14,7 @@ import { ConstantPool } from '@angular/compiler';
 export class ItemAddComponent implements OnInit {
   public pageName = PageName;
   public slider = false
-  public metricUnits = ['grams', 'kilograms'];
+  public metricUnits = ['g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pt', 'qt', 'gal'];
   public currentCategories: string[] = [];
 
   public newItem: Item = {

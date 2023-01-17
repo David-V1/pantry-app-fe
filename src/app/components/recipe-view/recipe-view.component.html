@@ -37,10 +37,7 @@
                 <ng-container *ngIf="currentRecipeId === ingredient.recipes.id">
                     <mat-icon (click)="showEdit(ingredient.id!)">edit</mat-icon>
                     <ul>
-                        <!--  <li> for display -->
-                        <li>{{ingredient.name}} | {{ingredient.weight ? ingredient.weight: ingredient.quantity }} {{ingredient.weight? ingredient.metric : ''}}</li>
-
-                        
+                         <li>{{ingredient.quantity ? ingredient.quantity : '' }} {{ingredient.weight ? ingredient.weight : ''}} {{ ingredient.weight ? ingredient.metric + ' of' : '' }}   {{ingredient.name}}</li>
                     </ul>
                 </ng-container>
             </ng-container>
