@@ -25,6 +25,13 @@ export class RecipeViewComponent implements OnInit, OnDestroy{
 
   arrayOfMatchingIngredientIds: number[] = [];
 
+  //Ingredient Update
+  updatedIngredient = {} as Ingredient;
+  slider = false;
+  metricUnits = ['grams', 'kilograms']; 
+  edit = false;
+  currentIngredientId: number | null = null;
+
   
   
   constructor(public ui: UiService, public recipeService: RecipeService, public itemService: ItemService) { 
@@ -145,11 +152,28 @@ export class RecipeViewComponent implements OnInit, OnDestroy{
     
   }
 
+  public showEdit(ingredientid:number): void {
+    this.currentIngredientId = ingredientid;
+    this.edit = !this.edit;
+  }
+  
+
+  public onUpdate(): void {
+    this.edit = !this.edit;
+    console.log(this.currentIngredientId)
+    console.log(this.updatedIngredient)
+    
+    this.recipeService.updateIngredient(this.currentIngredientId!,this.updatedIngredient);
+
+  }
+
+
   public onCookRecipe(): void {
     this.itemService.deletePantryItemsOnCook(this.itemsToDelete);
     this.ui.changePage(this.pageName.RECIPE);    
   }
 
+  
   ngOnDestroy(): void {
   }
 

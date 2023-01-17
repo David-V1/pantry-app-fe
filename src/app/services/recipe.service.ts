@@ -116,6 +116,21 @@ export class RecipeService {
   }
 
   // PUT
+  public updateIngredient(ingredientId:number ,ingredient: Ingredient): void {
+    this.http.put<Ingredient>(`${this.ingredientsURL}/${ingredientId}`, ingredient)
+    .pipe(take(1))
+    .subscribe({
+      next: () => {
+        this.ui.openSnackBar(`Ingredient '${ingredient.name}' updated`);
+        this.getAllIngredients();
+      },
+      error: err => {
+        console.log(err);
+        this.ui.onError('Error updating ingredient');
+      }
+    })
+  }
+
   // DELETE
   public deleteRecipeById(recipe:Recipe): void{
     this.http.delete<Recipe>(`${this.url}/${recipe.id}`)

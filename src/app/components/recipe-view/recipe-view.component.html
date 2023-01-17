@@ -28,17 +28,47 @@
         <ng-container *ngIf="recipeService.ingredients$ | async as recipeIngredients">
             <ng-container *ngFor="let ingredient of recipeIngredients">
                 <ng-container *ngIf="currentRecipeId === ingredient.recipes.id">
+                    <mat-icon (click)="showEdit(ingredient.id!)">edit</mat-icon>
                     <ul>
+                        <!--  <li> for display -->
                         <li>{{ingredient.name}} | {{ingredient.weight ? ingredient.weight: ingredient.quantity }} {{ingredient.weight? ingredient.metric : ''}}</li>
+
+                        
                     </ul>
                 </ng-container>
             </ng-container>
         </ng-container>
+        
     </div>
+
+    
 
     <div class="instructions-container">
         <h3>Instructions</h3>
         <p>{{recipe.instructions}}</p>
     </div>
 </div>
+
+<!-- UPDATE ingredient inputs -->
+<div class="ingredient" *ngIf="edit">
+    <input type="text" name="ingredient" id="i-name" placeholder="ingredient name" [(ngModel)]="updatedIngredient.name">
+    <input type="number" name="amount" id="i-amount" placeholder="amount" [(ngModel)]="updatedIngredient.weight">
+
+    <!-- Selecting metric section -->
+    <div class="amount-selection-container">
+        <div class="metric-wrapper" *ngIf="!slider">
+            <label for="metricUnit">Select Unit
+                <select name="metric" [(ngModel)]="updatedIngredient.metric">
+                    <option *ngFor="let unit of metricUnits" [value]="unit">{{unit}}</option>
+                </select>
+            </label>
+        </div>
+        <mat-slide-toggle [(ngModel)]="slider">Slide for {{slider ? 'Units' : 'Quantity'}} instead </mat-slide-toggle>
+        <div class="qty-wrapper" *ngIf="slider">
+            <input type="number" placeholder="Enter Quantity" [(ngModel)]="updatedIngredient.quantity">
+        </div>
+    </div>
+    <button (click)="onUpdate()">Update</button>
+</div>
+
 <button (click)="test()">TEST</button>
