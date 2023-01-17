@@ -5,10 +5,17 @@
 
 <div class="recipe-container" *ngIf="recipeService.recipe$ | async as recipe">
     <mat-icon (click)="deleteRecipe(recipe)">delete</mat-icon>
-    <button >Edit Recipe</button>
+    <button (click)="showEditRecipe()">Edit Recipe</button>
     <button (click)="onCookRecipe()">Cook Recipe!</button>
     <h1>{{recipe.name}}</h1>
-    
+
+    <!-- Update input for Recipe -->
+    <div class="recipe-edit-container" *ngIf="showUpdateRecipe">
+        <input type="text" name="recipe" id="r-name" placeholder="recipe name" [(ngModel)]="updatedRecipe.name">
+        <input type="text" name="image" id="r-image" placeholder="image url" [(ngModel)]="updatedRecipe.image">
+        <input type="text" name="instructions" id="r-instructions" placeholder="instructions" [(ngModel)]="updatedRecipe.instructions">
+        <button (click)="onUpdateRecipe(recipe.id!)">Update</button>
+    </div>
     <div class="image-container">
         <img src="{{recipe.image}}" height="350" alt="selected Image">
     </div>
@@ -68,7 +75,7 @@
             <input type="number" placeholder="Enter Quantity" [(ngModel)]="updatedIngredient.quantity">
         </div>
     </div>
-    <button (click)="onUpdate()">Update</button>
+    <button (click)="onUpdateIngredients()">Update</button>
 </div>
 
 <button (click)="test()">TEST</button>
