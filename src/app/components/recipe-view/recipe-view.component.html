@@ -5,26 +5,34 @@
 
 <div class="recipe-container" *ngIf="recipeService.recipe$ | async as recipe">
     <mat-icon (click)="deleteRecipe(recipe)">delete</mat-icon>
-    <button>Cook Recipe!</button>
+    <button (click)="onCookRecipe()">Cook Recipe!</button>
     <h1>{{recipe.name}}</h1>
     
     <div class="image-container">
         <img src="{{recipe.image}}" height="350" alt="selected Image">
     </div>
 
+    <!-- RxJs CombinedLatest -->
+    <!-- <div class="selected-Ingredients">
+        <ng-container *ngIf="selectedRecipeIngredients$ | async as recipeIngredients">
+            <div class="ingredients-container" *ngFor="let ingredient of recipeIngredients">
+                <ul>
+                    <li>{{ingredient.name}} | {{ingredient.weight ? ingredient.weight: ingredient.quantity }} {{ingredient.weight? ingredient.metric : ''}}</li>
+                </ul>
+            </div>
+        </ng-container>
+    </div> -->
+
     <div class="ingredients-container">
         <ng-container *ngIf="recipeService.ingredients$ | async as recipeIngredients">
             <ng-container *ngFor="let ingredient of recipeIngredients">
-                <!-- <ng-container *ngIf="recipeService.selectedRecipe === ingredient.recipes.id"> -->
                 <ng-container *ngIf="currentRecipeId === ingredient.recipes.id">
                     <ul>
                         <li>{{ingredient.name}} | {{ingredient.weight ? ingredient.weight: ingredient.quantity }} {{ingredient.weight? ingredient.metric : ''}}</li>
                     </ul>
                 </ng-container>
-                
             </ng-container>
         </ng-container>
-        
     </div>
 
     <div class="instructions-container">
@@ -32,3 +40,4 @@
         <p>{{recipe.instructions}}</p>
     </div>
 </div>
+<button (click)="test()">TEST</button>
