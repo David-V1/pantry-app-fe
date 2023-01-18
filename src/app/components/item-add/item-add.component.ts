@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/models/Item';
 import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
-import { distinct, filter, map, tap } from 'rxjs';
+import { distinct, filter, map, Subscription, tap } from 'rxjs';
 import { ConstantPool } from '@angular/compiler';
 
 @Component({
@@ -11,12 +11,13 @@ import { ConstantPool } from '@angular/compiler';
   templateUrl: './item-add.component.html',
   styleUrls: ['./item-add.component.css']
 })
-export class ItemAddComponent implements OnInit {
+export class ItemAddComponent implements OnInit, OnDestroy {
   public pageName = PageName;
   public slider = false
   public metricUnits = ['g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pt', 'qt', 'gal'];
   public currentCategories: string[] = [];
   editMode = false;
+  itemSubscription: Subscription
 
   public newItem: Item = {
     id: null,
@@ -30,7 +31,7 @@ export class ItemAddComponent implements OnInit {
   }
 
   constructor(public itemService: ItemService, public ui: UiService) {
-    this.itemService.items$
+    this.itemSubscription = this.itemService.items$
     .pipe(map(items => items.map(item => item.category)))
     .subscribe(categories => {
       categories.forEach(category => {
@@ -40,6 +41,7 @@ export class ItemAddComponent implements OnInit {
       })
     });
    }
+  
    ngOnInit(): void {
       this.itemService.getAllItems();
 
@@ -84,6 +86,8 @@ export class ItemAddComponent implements OnInit {
       this.editMode = false;
     }
 
-
+    ngOnDestroy(): void {
+      this.itemSubscription.unsubscribe();
+    }
 
 }
