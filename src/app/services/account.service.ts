@@ -82,6 +82,20 @@ export class AccountService {
   }
 
   // U - Update
+  public updateAccount(id:number, account: Account): void {
+    this.http.put<Account>(`${this.url}/${id}`, account)
+    .pipe(take(1))
+    .subscribe({
+      next: () => {
+        this.getAllAccounts();
+        this.ui.openSnackBar('Account updated successfully');
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
+
 
   // D - Delete
 

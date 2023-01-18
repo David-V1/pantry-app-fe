@@ -10,6 +10,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
 
 
 import { AppComponent } from './app.component';
@@ -26,6 +27,7 @@ import { StartUpComponent } from './components/start-up/start-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IngredientAddComponent } from './components/ingredient-add/ingredient-add.component';
 import { ItemEditComponent } from './components/item-edit/item-edit.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { ItemEditComponent } from './components/item-edit/item-edit.component';
     RecipeViewComponent,
     StartUpComponent,
     IngredientAddComponent,
-    ItemEditComponent
+    ItemEditComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import { ItemEditComponent } from './components/item-edit/item-edit.component';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

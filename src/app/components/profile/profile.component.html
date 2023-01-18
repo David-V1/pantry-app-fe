@@ -1,0 +1,33 @@
+<div class="example-button-container">
+    <button mat-fab color="warn" aria-label="Example icon button with a home icon" (click)="ui.changePage(pageName.HOME)">
+      <mat-icon>home</mat-icon>
+    </button>
+  </div>
+
+<div class="input-fields">    
+    <h3>Update your Email and Password</h3>
+
+    <mat-form-field class="example-form-field">
+        <mat-label>Edit Family name</mat-label>
+        <input matInput type="text" [(ngModel)]="updatedAccount.familyName">
+        <button *ngIf="updatedAccount.familyName" matSuffix mat-icon-button aria-label="Clear" (click)="updatedAccount.familyName=''">
+          <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+    <mat-form-field class="example-form-field">
+        <mat-label>Edit Email</mat-label>
+        <input matInput type="email" [(ngModel)]="updatedAccount.email">
+        <button *ngIf="updatedAccount.email" matSuffix mat-icon-button aria-label="Clear" (click)="updatedAccount.email=''">
+          <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+    <mat-form-field class="example-form-field">
+        <mat-label>Edit password</mat-label>
+        <input matInput type="password" [(ngModel)]="updatedAccount.password">
+        <button *ngIf="updatedAccount.password" matSuffix mat-icon-button aria-label="Clear" (click)="updatedAccount.password=''">
+          <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+    
+    <button mat-raised-button color="warn" (click)="onUpdateAccount()">Update</button>
+</div>
