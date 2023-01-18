@@ -1,21 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { UiService } from 'src/app/services/ui.service';
 import { AccountService } from 'src/app/services/account.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { Account } from 'src/app/models/Account';
 import { NgForm } from '@angular/forms';
-import { map } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent {
+export class SignupComponent implements OnDestroy {
   public pageName = PageName;
   public seeAddFamily: boolean = false;
   public familyNames: String[] = [];
-
+  accountSubscription: Subscription;
 
   public newAccount: Account = {
     id: null,
@@ -27,12 +27,13 @@ export class SignupComponent {
 
 
   constructor(public ui: UiService, public accountService: AccountService) {
-    this.accountService.whenAccountsUpdate()
+    this.accountSubscription = this.accountService.whenAccountsUpdate()
     .pipe(map(accounts => accounts.map(account => account.familyName))) //{[],[]}
     .subscribe(familyNames => {
       this.familyNames = familyNames;
     });
   }
+  
 
   public toggleAddFamily() {
     this.seeAddFamily = !this.seeAddFamily;
@@ -55,5 +56,8 @@ export class SignupComponent {
     this.newAccount.familyName = '';
   }
 
+  ngOnDestroy(): void {
+    this.accountSubscription.unsubscribe();
+  }
   
 }
