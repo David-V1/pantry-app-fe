@@ -1,22 +1,35 @@
 <div class="new-Recipe-header">
-    <button (click)="ui.changePage(pageName.RECIPE)">BACK</button>
-    <button (click)="onAddRecipe()">Add Recipe</button>
+    <button mat-raised-button color="warn" (click)="ui.changePage(pageName.RECIPE)"><mat-icon>arrow_back_ios</mat-icon></button>
+    <button type="submit" id="sbmt-btn" mat-raised-button color="warn" (click)="onAddRecipe()"> Add New Item</button>
 </div>
 
-<div class="new-recipe-container">
-    <h2>New Recipe</h2>
-    <div class="new-recipe">
-        <div class="recipe-inpput">
-            <label for="recipeName">Recipe Name</label>
-            <input type="text" id="recipeName" placeholder="Recipe Name" [(ngModel)]="newRecipe.name">
-        </div>
-        <div class="recipe-inpput">
-            <label for="recipeImage">Recipe Image</label>
-            <input type="text" id="recipeImage" placeholder="Image URL" [(ngModel)]="newRecipe.image">
-        </div>
-        <div class="recipe-inpput">
-            <label for="recipeInstructions">Recipe Instructions</label>
-            <input type="text" id="recipeInstructions" placeholder="Recipe Instructions" [(ngModel)]="newRecipe.instructions">
-        </div>
+<!--  ***************************-->
+<div class="recipe-container" >
+    <h1>Enter New Recipe</h1>
+    
+    <div class="input-container">
+        <!-- NAME -->
+        <mat-form-field class="example-form-field">
+            <mat-label> Recipe Name</mat-label>
+            <input matInput type="text" [(ngModel)]="newRecipe.name" >
+            <button *ngIf="newRecipe.name" matSuffix mat-icon-button aria-label="Clear" (click)="newRecipe.name=''">
+              <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    
+        <!-- IMAGE -->
+        <mat-form-field class="example-form-field">
+            <mat-label> Recipe Image</mat-label>
+            <input matInput type="url" [(ngModel)]="newRecipe.image" placeholder="image URL" >
+            <button *ngIf="newRecipe.name" matSuffix mat-icon-button aria-label="Clear" (click)="newRecipe.name=''">
+              <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
     </div>
+    
+    <!-- TEXTAREA -->
+    <mat-form-field class="exa">
+        <mat-label>Recipe Instructions</mat-label>
+        <textarea matInput placeholder="Ex. Step 1. Add Parmesan..." [(ngModel)]="newRecipe.instructions"></textarea>
+    </mat-form-field>
 </div>
