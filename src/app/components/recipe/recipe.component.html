@@ -1,6 +1,11 @@
+<button mat-fab color="accent" class="home-btn" aria-label="Example icon button with a home icon" (click)="ui.changePage(pageName.HOME)">
+    <mat-icon >home</mat-icon>
+</button>
 <div class="recipe-header">
-    <mat-icon (click)="ui.changePage(pageName.HOME)">home</mat-icon>
-    <button (click)="ui.changePage(pageName.RECIPE_ADD)">+Add Recipe</button>
+    <button mat-stroked-button color="primary" id="add-recipe-btn" (click)="ui.changePage(pageName.RECIPE_ADD)">
+        <mat-icon>add</mat-icon>
+        Add Recipe
+    </button>
 </div>
 
 <div class="recipes-container">
@@ -9,16 +14,13 @@
         <div class="card-wrapper">
             <div class="recipe-card-wrapper">
                 <div class="card" *ngFor="let recipe of recipes" >
-                    <!-- <<ng-container > -->
-                        <h3>{{recipe.name}}</h3>
-                        <div class="img-wrapper">
-                            <img src="{{recipe.image}}" alt="recipe image" height="150" (click)="onSelectRecipe(recipe.id!)">
-                        </div>
-                        <div class="subtitle-container" >
-                            <small (click)="onSelectRecipe(recipe.id!); ui.changePage(pageName.INGREDIENT_ADD)">Click to add ingredients</small>
-                        </div>
-                    <!-- </ng-container> -->
-                    
+                    <h3>{{recipe.name}}</h3>
+                    <div class="img-wrapper">
+                        <img src="{{recipe.image}}" alt="recipe image" height="150" (click)="onSelectRecipe(recipe.id!)">
+                    </div>
+                    <div class="subtitle-container" >
+                        <small (click)="onSelectRecipe(recipe.id!); ui.changePage(pageName.INGREDIENT_ADD)">Click to add ingredients</small>
+                    </div>
                 </div>
             </div>
         </div>

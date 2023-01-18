@@ -26,7 +26,7 @@ export class RecipeViewComponent {
   //Ingredient Update
   updatedIngredient = {} as Ingredient;
   slider = false;
-  metricUnits = ['grams', 'kilograms']; 
+  metricUnits = ['g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pt', 'qt', 'gal']; 
   edit = false;
   currentIngredientId: number | null = null;
 
@@ -97,6 +97,8 @@ export class RecipeViewComponent {
     this.ui.changePage(this.pageName.RECIPE);    
   }
 
-
+  public hideEdit(): void {
+    this.edit = false;
+  }
 
 }

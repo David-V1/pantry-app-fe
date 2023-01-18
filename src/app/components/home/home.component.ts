@@ -26,8 +26,8 @@ export class HomeComponent {
    
 
   public onViewRecipes(): void {
+    // location.reload();
     this.ui.changePage(PageName.RECIPE);
-    location.reload();
   }
 
   public onSelectRecipe(id: number) {
