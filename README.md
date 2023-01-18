@@ -1,4 +1,12 @@
 # CapstonePantryAppFe
+General App abstraction of client Idea
+![pantry-app-idea](https://user-images.githubusercontent.com/90426008/213105515-c354607e-ea1a-4349-b86e-a7fa79e6a00b.svg)
+
+## User-Flow
+![User-Flow](https://user-images.githubusercontent.com/90426008/213105753-5734cae9-9038-4d89-b8f6-ebc2bcd8c768.svg)
+
+## App Wireframe:
+![Wireframe](https://user-images.githubusercontent.com/90426008/213105879-4c221cf9-9be8-4140-a969-4f030637c57d.svg)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
 
