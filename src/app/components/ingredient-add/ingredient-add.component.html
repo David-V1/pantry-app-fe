@@ -1,32 +1,66 @@
 <div class="ingredients-bulletPoints">
     <!-- Conditionals for display readability -->
-    <ng-container *ngFor="let ingredients of addedIngredients">
-        <ul>
+    <div id="ingredients-container" *ngFor="let ingredients of addedIngredients">
+        <ul id="ingredients-wrapper">
             <li>{{ingredients.quantity ? ingredients.quantity : '' }} {{ingredients.weight ? ingredients.weight : ''}} {{ ingredients.weight ? ingredients.metric + ' of' : '' }}   {{ingredients.name}}</li>
         </ul>
 
-    </ng-container>
+    </div>
+</div>
+<!-- ********************************************************************** -->
+<div class="div"></div>
+<h1>Enter New Item</h1>
+<mat-slide-toggle id="toggle-switch" [(ngModel)]="slider">Slide for {{slider ? 'Units' : 'Quantity'}} instead </mat-slide-toggle>
+<div class="ingredient" >
+    
+    
+    <!-- NAME -->
+    <mat-form-field class="example-form-field">
+        <mat-label>Ingredient Name</mat-label>
+        <input matInput type="text" [(ngModel)]="newIngredient.name" placeholder="ingredient">
+        <button *ngIf="newIngredient.name" matSuffix mat-icon-button aria-label="Clear" (click)="newIngredient.name=''">
+          <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+ 
+
+    
+    <!-- WEIGHT -->
+    <mat-form-field class="example-form-field" *ngIf="!slider">
+        <mat-label>Ingredient Weight</mat-label>
+        <input matInput type="number" [(ngModel)]="newIngredient.weight" >
+        <button *ngIf="newIngredient.weight" matSuffix mat-icon-button aria-label="Clear" (click)="newIngredient.weight=0">
+          <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <!-- Dropdown METRIC -->
+    <div class="metric-wrapper" *ngIf="!slider">
+        <mat-form-field appearance="fill">
+            <mat-label>Metric Unit</mat-label>
+            <select matNativeControl [(ngModel)]="newIngredient.metric" name="car">
+                <!-- <option value="" selected></option> -->
+                <option *ngFor="let unit of metricUnits" [value]="unit">
+                {{unit}}
+                </option>
+            </select>
+            </mat-form-field>
+        </div>
+
+    <!-- QUANTITY -->
+            <mat-form-field class="example-form-field" *ngIf="slider">
+            <mat-label>Ingredient Quantity</mat-label>
+            <input matInput type="number" [(ngModel)]="newIngredient.quantity" >
+            <button *ngIf="newIngredient.quantity" matSuffix mat-icon-button aria-label="Clear" (click)="newIngredient.quantity=0">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        
 </div>
 
-<div class="ingredient-add-container">
-    <div class="ingredient">
-        <input type="text" name="ingredient" id="i-name" placeholder="ingredient" [(ngModel)]="newIngredient.name">
-        <input type="number" name="amount" id="i-amount" placeholder="amount" [(ngModel)]="newIngredient.weight">
-        <div class="amount-selection-container">
-            <div class="metric-wrapper" *ngIf="!slider">
-                <label for="metricUnit">Select Unit
-                    <select name="metric" [(ngModel)]="newIngredient.metric">
-                        <option *ngFor="let unit of metricUnits" [value]="unit">{{unit}}</option>
-                    </select>
-                </label>
-            </div>
-            <mat-slide-toggle [(ngModel)]="slider">Slide for {{slider ? 'Units' : 'Quantity'}} instead </mat-slide-toggle>
-            <div class="qty-wrapper" *ngIf="slider">
-                <input type="number" placeholder="Enter Quantity" [(ngModel)]="newIngredient.quantity">
-            </div>
-        </div>
-    </div>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    <button (click)="addIngredient()">Add Ingredient</button>
+<div class="buttons">
+    <button type="submit" id="sbmt-btn" mat-raised-button color="primary" (click)="goBackClick()"> Back<mat-icon>keyboard_backspace</mat-icon></button>
+    <button type="submit" id="sbmt-btn" mat-raised-button color="primary" (click)="addIngredient()"> Add ingredient	<mat-icon>add</mat-icon></button>
+        
 </div>
-<button (click)="goBackClick()">Done</button>
