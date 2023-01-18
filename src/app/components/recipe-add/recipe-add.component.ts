@@ -25,6 +25,7 @@ export class RecipeAddComponent {
     this.recipeService.addRecipe(this.newRecipe);
     this.ui.changePage(this.pageName.RECIPE);
     this.resetInputFields();
+    location.reload();
   }
 
   resetInputFields() {

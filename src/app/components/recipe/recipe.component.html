@@ -7,15 +7,18 @@
     <h3>All Recipes</h3>
     <div class="recipe-card-container">
         <div class="card-wrapper">
-            <div class="recipe-card-wrapper" *ngIf="this.recipeService.recipes$ | async as recipes">
+            <div class="recipe-card-wrapper">
                 <div class="card" *ngFor="let recipe of recipes" >
-                    <h3>{{recipe.name}}</h3>
-                    <div class="img-wrapper">
-                        <img src="{{recipe.image}}" alt="recipe image" height="150" (click)="onSelectRecipe(recipe.id!)">
-                    </div>
-                    <div class="subtitle-container" >
-                        <small (click)="onSelectRecipe(recipe.id!); ui.changePage(pageName.INGREDIENT_ADD)">Click to add ingredients</small>
-                    </div>
+                    <!-- <<ng-container > -->
+                        <h3>{{recipe.name}}</h3>
+                        <div class="img-wrapper">
+                            <img src="{{recipe.image}}" alt="recipe image" height="150" (click)="onSelectRecipe(recipe.id!)">
+                        </div>
+                        <div class="subtitle-container" >
+                            <small (click)="onSelectRecipe(recipe.id!); ui.changePage(pageName.INGREDIENT_ADD)">Click to add ingredients</small>
+                        </div>
+                    <!-- </ng-container> -->
+                    
                 </div>
             </div>
         </div>
