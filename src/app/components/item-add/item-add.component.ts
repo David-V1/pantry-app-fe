@@ -16,6 +16,7 @@ export class ItemAddComponent implements OnInit {
   public slider = false
   public metricUnits = ['g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pt', 'qt', 'gal'];
   public currentCategories: string[] = [];
+  editMode = false;
 
   public newItem: Item = {
     id: null,
@@ -48,7 +49,6 @@ export class ItemAddComponent implements OnInit {
 
     
     public onAddItem(): void {
-      console.log(this.newItem);
       if (this.newItem.name === '' ) return this.ui.onError('Please Enter a name for the item');
       if (this.newItem.weight <= 0 && this.newItem.metric === '' && this.newItem.quantity === 0) return this.ui.onError('Please enter a measurement for the item');
       if (this.newItem.weight !== 0 && this.newItem.metric === '') return this.ui.onError('Please select a metric for the item');
@@ -60,6 +60,7 @@ export class ItemAddComponent implements OnInit {
 
      
       this.itemService.addItem(this.newItem);
+      console.log(this.newItem);
       this.resetFields();
     }
 
@@ -75,5 +76,14 @@ export class ItemAddComponent implements OnInit {
         category: ''
       }
     }
+    public goBackClick(): void{
+      this.ui.changePage(this.pageName.PANTRY)
+    }
+
+    hideEdit(): void {
+      this.editMode = false;
+    }
+
+
 
 }
