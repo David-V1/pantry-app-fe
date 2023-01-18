@@ -1,6 +1,8 @@
+<button mat-fab color="warn" class="home-btn" aria-label="Example icon button with a home icon" (click)="ui.changePage(pageName.HOME)">
+    <mat-icon >home</mat-icon>
+</button>
 <div class="pantry-header">
-    <mat-icon (click)="ui.changePage(pageName.HOME)">home</mat-icon>
-    <button (click)="ui.changePage(pageName.ITEM_ADD)">+ Add Item</button>
+    <button mat-stroked-button color="accent" (click)="ui.changePage(pageName.ITEM_ADD)"><mat-icon>add</mat-icon>Add Item</button>
 </div>
 
 <div class="pantry-container">
@@ -17,17 +19,16 @@
             </ng-container>
         </div>
     </div>
-
-    <div class="category-container">
-        <div class="category-wrapper">
-            <h2>Category Items</h2>
-            <div class="pantry-category-container" *ngIf="items">
-                <ng-container *ngFor="let category of ui.foodGroups">
-                    <div class="category-card">
-                        <h6>{{category}}</h6>
-                    </div>
-                </ng-container>
-            </div>
+</div>
+<div class="category-container">
+    <div class="category-wrapper">
+        <h2>Category Items</h2>
+        <div class="pantry-category-container" *ngIf="items">
+            <ng-container *ngFor="let category of ui.foodGroups">
+                <div class="category-card">
+                    <h6>{{category}}</h6>
+                </div>
+            </ng-container>
         </div>
     </div>
 </div>

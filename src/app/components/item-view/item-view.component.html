@@ -1,32 +1,46 @@
-<mat-icon (click)="goBackClick()">arrow_back</mat-icon>
+
+<button mat-fab color="primary" aria-label="Back button" (click)="goBackClick()">
+    <mat-icon >arrow_back</mat-icon>
+  </button>
 
 <div class="item-container" *ngIf="itemService.item$ | async as item">
-    <div class="item-view-header">
-        <mat-icon (click)="deleteItem(item)">delete</mat-icon>
-        <button (click)="openDialog(item)"><mat-icon>edit</mat-icon></button>
-        
-        
-    </div>
-    <div class="item-hero-section">
-        <h1>{{item.name}}</h1>
-        <img src="{{item.image}}" alt="item image" height="150" >
-    </div>
-    <div class="item-body">
-        <div class="item-weight">
-            <h2>Weight</h2>
-            <p>{{item.weight}}</p>
-        </div>
-        <div class="item-calories">
-            <h2> Calories</h2>
-            <p>{{item.calories}}</p>
-        <div class="item-quantity">
-            <h2>Quantity</h2>
-            <p>{{item.quantity}}</p>
-        </div>
-        <div class="item-category">
-            <h2>Category</h2>
-            <p>{{item.category}}</p>
-        </div>
-        
-    </div>
+    <mat-card class="example-card">
+        <mat-card-header class="card-header">
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{item.name}}</mat-card-title>
+          <mat-card-subtitle>{{item.category}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="{{item.image}}" alt="Photo of {{item.name}}">
+        <mat-card-content>
+            <table>
+                <ng-container *ngIf="item.weight">
+                    <tr>
+                        <td>Weight</td>
+                        <td>{{item.weight}} {{item.metric}}</td>
+                    </tr>
+                </ng-container>
+                
+                <tr>
+                    <td>Calories</td>
+                    <td>{{item.calories}}</td>
+                </tr>
+                <ng-container *ngIf="item.quantity">
+                    <tr>
+                        <td>Quantity</td>
+                        <td>{{item.quantity}}</td>
+                    </tr>
+                </ng-container>
+                
+                <tr>
+                    <td>Category</td>
+                    <td>{{item.category}}</td>
+                </tr>
+            </table>
+        </mat-card-content>
+        <mat-card-actions class="card-buttons">
+          <button mat-button (click)="deleteItem(item)"> Delete<mat-icon >delete</mat-icon></button>
+          <button mat-button (click)="openDialog(item)">Edit<mat-icon>edit</mat-icon></button>
+        </mat-card-actions>
+      </mat-card>
 </div>
+

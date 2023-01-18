@@ -12,16 +12,15 @@ import { UiService } from 'src/app/services/ui.service';
 })
 export class ItemEditComponent implements OnDestroy {
   isChecked: boolean = false;
-  updatedItem: Item ={} as Item;
-  item: Item = {} as Item;
-  public metricUnits = ['grams', 'kilograms'];
+  updatedItem: Item ={} as Item; // xfer to dialog
+  item: Item = {} as Item; // casting current item info to input fields
+  public metricUnits = ['g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pt', 'qt', 'gal'];
   public itemSub: Subscription;
 
   constructor(public ui: UiService, private matDialogRef: MatDialogRef<ItemEditComponent>, public itemService: ItemService) {
     this.itemSub = this.itemService.item$.subscribe(item => {
       this.item = item;
-      console.log(this.item)
-      console.log(item)
+
     })
     this.itemService.getItemById(Number(localStorage.getItem('selectedItemId')));
   }

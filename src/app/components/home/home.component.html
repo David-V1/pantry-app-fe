@@ -13,7 +13,22 @@
 </div>
 
 <div class="pantry-container">
+    
     <div class="pantry-wrapper">
+        <div class="icon-logos-container">
+            <button class="btn-main"  mat-stroked-button color="accent">
+                <mat-icon class="b-ico">crop_square</mat-icon>
+            </button>
+            <button class="btn-main"  mat-stroked-button color="warn">
+                <mat-icon>details</mat-icon>
+            </button>
+            <button class="btn-main"  mat-stroked-button color="accent">
+                <mat-icon>change_history</mat-icon>
+            </button>
+            <button class="btn-main"  mat-stroked-button color="warn">
+                <mat-icon>radio_button_unchecked</mat-icon>
+            </button>
+        </div>
         <div class="pantry-icon">
             <mat-icon> fastfood</mat-icon>
         <h3 (click)="ui.changePage(pageName.PANTRY)">Pantry</h3>
