@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Account } from '../models/Account';
 import { Observable, Subject, take } from 'rxjs';
 import { UiService } from './ui.service';
+import { PageName } from '../enums/PageEnum';
 
 @Injectable({
   providedIn: 'root'
@@ -67,8 +68,12 @@ export class AccountService {
         this.currentAccount = account;
         this.ui.onValidLogin(this.currentAccount);
         this.accountSubjects.next(account);
+        // this.ui.changePage(PageName.HOME);
       },
-      error: err => console.error(err)
+      error: err => {
+        console.error(err)
+        return;
+      }
     });
   }
 

@@ -3,6 +3,9 @@ import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Recipe } from 'src/app/models/Recipe';
+import { RecipeDTO } from 'src/app/models/modelsDTO/RecipeDTO';
+import { AccountService } from 'src/app/services/account.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-recipe',
@@ -11,14 +14,24 @@ import { Recipe } from 'src/app/models/Recipe';
 })
 export class RecipeComponent {
     public pageName = PageName;
-    public recipes: Recipe[] = [];
+    public recipes: Recipe[] | RecipeDTO[] = [];
    
-    constructor(public ui: UiService, public recipeService: RecipeService) { 
-      this.recipeService.recipes$.subscribe({
-        next: recipes => {
-          this.recipes = recipes;
-        }})
-        this.recipeService.getRecipes();
+    constructor(public ui: UiService, public recipeService: RecipeService, public accountService: AccountService) { 
+      // this.recipeService.getRecipesDTO();
+      // this.recipeService.recipes$.subscribe({
+      //   next: recipes => {
+      //     this.recipes = recipes;
+      //   }})
+      //   this.recipeService.getRecipes();
+      this.recipeService.recipesDTO$
+        // .pipe(map(recipe => recipe.map(r => r.account.id === this.recipeService.userId)))
+        .pipe(map(recipe => recipe.filter(r => r.account.id === this.recipeService.userId)))
+        .subscribe({
+          next: recipesDTO => {
+            this.recipes = recipesDTO;
+            console.log(this.recipes)
+          }})
+        this.recipeService.getRecipesDTO();
     }
   
     public onSelectRecipe(id: number) {

@@ -6,7 +6,7 @@ import { PageName } from '../enums/PageEnum';
 import { map, Observable, Subject, take, tap } from 'rxjs';
 import { Ingredient } from '../models/Ingredient';
 import { IngredientDTO } from '../models/modelsDTO/IngredientDTO';
-
+import { RecipeDTO } from '../models/modelsDTO/RecipeDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ import { IngredientDTO } from '../models/modelsDTO/IngredientDTO';
 export class RecipeService {
   public pageName = PageName;
   public recipes: Recipe[] = [];
+  public recipesDTO: RecipeDTO[] = [];
   public ingredients: any[] = [];
   // selectedRecipe: number | null = null;
   selectedRecipe = Number(localStorage.getItem('selectedRecipeId')) || null;
@@ -23,6 +24,9 @@ export class RecipeService {
 
   private recipesSubject: Subject<Recipe[]> = new Subject();
   public recipes$: Observable<Recipe[]> = this.recipesSubject.asObservable();
+
+  private recipesDTOSubject: Subject<RecipeDTO[]> = new Subject();
+  public recipesDTO$: Observable<RecipeDTO[]> = this.recipesDTOSubject.asObservable();
 
   private ingredientsSubject: Subject<IngredientDTO[]> = new Subject();
   public ingredients$: Observable<IngredientDTO[]> = this.ingredientsSubject.asObservable();
@@ -36,8 +40,9 @@ export class RecipeService {
    }
 
   // POST
+  userId = Number(localStorage.getItem('userAccountId'))
   public addRecipe(recipe: Recipe): void {
-    this.http.post<Recipe>(`${this.url}`, recipe)
+    this.http.post<Recipe>(`${this.url}/${this.userId}`, recipe)
     .pipe(take(1))
     .subscribe({
       next: recipe => {
@@ -72,6 +77,22 @@ export class RecipeService {
       next: recipes => {
         this.recipes = recipes;
         this.recipesSubject.next(this.recipes);
+      },
+      error: err => {
+        console.log(err);
+        this.ui.onError('Error getting recipes');
+      }
+    })
+  }
+
+  public getRecipesDTO(): void{
+    this.http.get<RecipeDTO[]>(`${this.url}`)
+    .pipe(take(1))
+    .subscribe({
+      next: recipes => {
+        // this.recipes = recipes;
+        this.recipesDTO = recipes;
+        this.recipesDTOSubject.next(this.recipesDTO);
       },
       error: err => {
         console.log(err);

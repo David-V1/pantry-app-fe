@@ -16,7 +16,7 @@ export class HomeComponent {
 
   constructor(public ui: UiService, public recipeService: RecipeService) {
     this.recipeService.recipes$
-    .pipe(map(recipes =>recipes.filter(obj => obj.id! <= 3))) // first 3 recipes
+    .pipe(map(recipes =>recipes.filter(obj => obj.id! <= 3))) // 3 hero Images TODO: need to be random or Favs
     .subscribe({
       next: recipes => this.heroRecipes = recipes,
       error: err => console.log(err)
@@ -27,6 +27,7 @@ export class HomeComponent {
 
   public onViewRecipes(): void {
     this.ui.changePage(PageName.RECIPE);
+    location.reload();
   }
 
   public onSelectRecipe(id: number) {

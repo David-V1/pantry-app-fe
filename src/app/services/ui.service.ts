@@ -24,6 +24,7 @@ export class UiService {
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('email', currentAccount.email);
     localStorage.setItem('password', currentAccount.password);
+    localStorage.setItem('userAccountId', currentAccount.id!.toString());
   }
 
   public onLogout(): void {
@@ -31,6 +32,7 @@ export class UiService {
     localStorage.setItem('isLoggedIn', 'false');
     localStorage.removeItem('email');
     localStorage.removeItem('password');
+    localStorage.removeItem('userAccountId');
   }
 
   public changePage(page: PageName): void {
