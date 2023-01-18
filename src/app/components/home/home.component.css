@@ -49,3 +49,7 @@ h3:hover {
     display: flex;
     flex-direction: column;
 }
+
+.btn-main{
+    pointer-events: none;
+}

@@ -65,6 +65,7 @@ export class ItemService {
     .subscribe({
       next: item => {
         this.itemSubject.next(item);
+        this.getAllItems();
         
       },
       error: err => {

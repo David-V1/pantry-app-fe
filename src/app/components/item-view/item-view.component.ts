@@ -36,6 +36,7 @@ export class ItemViewComponent {
     dialogRef.afterClosed().subscribe(result => {
       // Clicks outside dialog box
       if (result === undefined) return;
+
       if (result.weight === undefined && result.metric) return this.ui.onError('Please enter a weight');
       if (result.metric === undefined && result.weight) return this.ui.onError('Please enter a unit of measurement');
       if (result.name === undefined) return this.ui.onError('Please Enter a name');
@@ -53,10 +54,9 @@ export class ItemViewComponent {
         category: result.category
       }
       this.itemService.updateItemById(newUpdatedItem);
-      console.log(`Dialog result: ${newUpdatedItem}`);
+      location.reload();
     });
-    this.ui.changePage(this.pageName.PANTRY);
-
+    // this.ui.changePage(this.pageName.PANTRY);
   }
 
 }
