@@ -1,12 +1,17 @@
 <div class="recipeView-header">
     <!-- removes Id state - localStorage -->
-    <button (click)="goBackClick()"> All Recipes</button>
+    <button mat-stroked-button color="warn" (click)="goBackClick()"> All Recipes</button>
 </div>
 
 <div class="recipe-container" *ngIf="recipeService.recipe$ | async as recipe">
-    <mat-icon (click)="deleteRecipe(recipe)">delete</mat-icon>
-    <button (click)="showEditRecipe()">Edit Recipe</button>
-    <button (click)="onCookRecipe()">Cook Recipe!</button>
+    <div class="recipe-view-heading">
+        <button mat-stroked-button color="warn" (click)="deleteRecipe(recipe)">
+            <mat-icon >delete</mat-icon>
+        </button>
+        <button mat-stroked-button color="warn" (click)="showEditRecipe()">Edit Recipe</button>
+        <button mat-stroked-button color="warn" (click)="onCookRecipe()">Cook Recipe!</button>
+    </div>
+    
     <h1>{{recipe.name}}</h1>
 
     <!-- Update input for Recipe -->
@@ -35,7 +40,7 @@
         <ng-container *ngIf="recipeService.ingredients$ | async as recipeIngredients">
             <ng-container *ngFor="let ingredient of recipeIngredients">
                 <ng-container *ngIf="currentRecipeId === ingredient.recipes.id">
-                    <mat-icon (click)="showEdit(ingredient.id!)">edit</mat-icon>
+                    <mat-icon  id="edit-ingredient" (click)="showEdit(ingredient.id!)">edit</mat-icon>
                     <ul>
                          <li>{{ingredient.quantity ? ingredient.quantity : '' }} {{ingredient.weight ? ingredient.weight : ''}} {{ ingredient.weight ? ingredient.metric + ' of' : '' }}   {{ingredient.name}}</li>
                     </ul>
@@ -47,30 +52,56 @@
 
     
 
-    <div class="instructions-container">
-        <h3>Instructions</h3>
+    <div class="instructions-container" *ngIf="!edit">
+        <h2>Instructions</h2>
         <p>{{recipe.instructions}}</p>
     </div>
 </div>
 
 <!-- UPDATE ingredient inputs -->
-<div class="ingredient" *ngIf="edit">
-    <input type="text" name="ingredient" id="i-name" placeholder="ingredient name" [(ngModel)]="updatedIngredient.name">
-    <input type="number" name="amount" id="i-amount" placeholder="amount" [(ngModel)]="updatedIngredient.weight">
-
-    <!-- Selecting metric section -->
-    <div class="amount-selection-container">
-        <div class="metric-wrapper" *ngIf="!slider">
-            <label for="metricUnit">Select Unit
-                <select name="metric" [(ngModel)]="updatedIngredient.metric">
-                    <option *ngFor="let unit of metricUnits" [value]="unit">{{unit}}</option>
-                </select>
-            </label>
+<div class="update-inputs">
+    <div class="ingredient" *ngIf="edit">
+        <mat-form-field class="example-form-field">
+            <mat-label>Ingredient Name</mat-label>
+            <input matInput type="text" [(ngModel)]="updatedIngredient.name" >
+            <button *ngIf="updatedIngredient.name" matSuffix mat-icon-button aria-label="Clear" (click)="updatedIngredient.name=''">
+              <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        <!-- <input type="text" name="ingredient" id="i-name" placeholder="ingredient name" [(ngModel)]="updatedIngredient.name"> -->
+        <!-- <input type="number" name="amount" id="i-amount" placeholder="amount" [(ngModel)]="updatedIngredient.weight"> -->
+        <mat-form-field class="example-form-field" *ngIf="!slider">
+            <mat-label>Ingredient Weight</mat-label>
+            <input matInput type="number" [(ngModel)]="updatedIngredient.weight" >
+            <button *ngIf="updatedIngredient.weight" matSuffix mat-icon-button aria-label="Clear" (click)="updatedIngredient.weight=0">
+              <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    
+        <!-- Selecting metric section -->
+        <div class="amount-selection-container">
+            <div class="metric-wrapper" *ngIf="!slider">
+                <label for="metricUnit">Select Unit
+                    <select name="metric" [(ngModel)]="updatedIngredient.metric">
+                        <option *ngFor="let unit of metricUnits" [value]="unit">{{unit}}</option>
+                    </select>
+                </label>
+            </div>
+            <mat-slide-toggle [(ngModel)]="slider">Slide for {{slider ? 'Units' : 'Quantity'}} instead </mat-slide-toggle>
+            
+            <div class="qty-wrapper" *ngIf="slider">
+                <!-- <input type="number" placeholder="Enter Quantity" [(ngModel)]="updatedIngredient.quantity">
+                 -->
+                 <mat-form-field class="example-form-field">
+                    <mat-label>Enter Quantity</mat-label>
+                    <input matInput type="number" [(ngModel)]="updatedIngredient.quantity" >
+                    <button *ngIf="updatedIngredient.quantity" matSuffix mat-icon-button aria-label="Clear" (click)="updatedIngredient.quantity=0">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
         </div>
-        <mat-slide-toggle [(ngModel)]="slider">Slide for {{slider ? 'Units' : 'Quantity'}} instead </mat-slide-toggle>
-        <div class="qty-wrapper" *ngIf="slider">
-            <input type="number" placeholder="Enter Quantity" [(ngModel)]="updatedIngredient.quantity">
-        </div>
+        <button mat-stroked-button color="warn" (click)="onUpdateIngredients()">Update</button>
+        <button mat-stroked-button color="accent" (click)="hideEdit()">cancel</button>
     </div>
-    <button (click)="onUpdateIngredients()">Update</button>
 </div>

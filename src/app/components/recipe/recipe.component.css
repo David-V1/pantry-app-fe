@@ -1,3 +1,7 @@
+.home-btn{
+    margin: 2%;
+}
+
 .recipe-card-wrapper {
     display: flex;
     justify-content: space-evenly;
@@ -19,4 +23,25 @@
     transition: all 0.3s ease-in-out;
     color: #f44336;
     
+}
+.recipe-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#add-recipe-btn{
+    color: aquamarine;
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

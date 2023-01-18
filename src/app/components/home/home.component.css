@@ -4,6 +4,11 @@
     margin: 5%;
 }
 
+#logout-btn {
+    color: rgb(86, 172, 211);
+    margin-left: 5%;
+}
+
 .pantry-wrapper, .recipe-wrapper {
     display: flex;
     justify-content: center;
@@ -28,4 +33,19 @@ h3:hover {
     font-size: 2rem;
     font-weight: 600;
     margin: 0;
+}
+
+.pantry-icon{
+    display: flex;
+    align-items: center;
+    color: rgb(198, 118, 73);
+}
+.pantry-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-wrapper {
+    display: flex;
+    flex-direction: column;
 }
