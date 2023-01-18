@@ -35,7 +35,7 @@
             </div>
         </ng-container>
     </div> -->
-
+    <!-- Display the recipe ingredients -->
     <div class="ingredients-container">
         <ng-container *ngIf="recipeService.ingredients$ | async as recipeIngredients">
             <ng-container *ngFor="let ingredient of recipeIngredients">
