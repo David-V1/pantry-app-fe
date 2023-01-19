@@ -49,6 +49,12 @@ export class ProfileComponent implements OnInit,OnDestroy {
     this.resetFields();
   }
 
+  public deleteAccount(): void {
+    this.accountService.deleteAccount(this.currentId);
+    // console.log(this.currentId);
+    this.ui.changePage(this.pageName.START_UP)
+  }
+
   resetFields() {
     this.updatedAccount = {} as Account;
   }

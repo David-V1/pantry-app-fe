@@ -28,6 +28,9 @@ export class RecipeService {
   private recipesDTOSubject: Subject<RecipeDTO[]> = new Subject();
   public recipesDTO$: Observable<RecipeDTO[]> = this.recipesDTOSubject.asObservable();
 
+  private recipeSubjectDTO: Subject<RecipeDTO> = new Subject();
+  public recipeDTO$: Observable<RecipeDTO> = this.recipeSubjectDTO.asObservable();
+
   private ingredientsSubject: Subject<IngredientDTO[]> = new Subject();
   public ingredients$: Observable<IngredientDTO[]> = this.ingredientsSubject.asObservable();
 
@@ -54,6 +57,23 @@ export class RecipeService {
         this.ui.onError('Error adding recipe');
       }})
   }
+
+  public addRecipeDTO(recipe: RecipeDTO): void {
+    this.http.post<RecipeDTO>(`${this.url}/${this.userId}`, recipe)
+    .pipe(take(1))
+    .subscribe({
+      next: recipe => {
+        // this.recipeSubject.next(recipe);
+        this.recipeSubjectDTO.next(recipe);
+        // this.getRecipes();
+        this.getRecipesDTO();
+      },
+      error: err => {
+        console.log(err);
+        this.ui.onError('Error adding recipe');
+      }})
+  }
+  
 
   public addIngredientsToRecipe(recipeId: number, ingredients: Ingredient): void {
     this.http.post<Ingredient>(`${this.ingredientsURL}/recipeId/${recipeId}`, ingredients)
@@ -92,7 +112,7 @@ export class RecipeService {
       next: recipes => {
         // this.recipes = recipes;
         this.recipesDTO = recipes;
-        this.recipesDTOSubject.next(this.recipesDTO);
+        this.recipesDTOSubject.next(recipes);
       },
       error: err => {
         console.log(err);
