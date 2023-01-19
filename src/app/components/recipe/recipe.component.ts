@@ -25,7 +25,7 @@ export class RecipeComponent implements OnDestroy{
         .subscribe({
           next: recipesDTO => {
             this.recipes = recipesDTO;
-            console.log(this.recipes)
+            // console.log(this.recipes)
           }})
         this.recipeService.getRecipesDTO();
     }

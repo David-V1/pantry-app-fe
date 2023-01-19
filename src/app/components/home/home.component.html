@@ -5,7 +5,7 @@
 
     <div class="profile-wrapper">
         <div class="profile-image">
-            <button mat-fab color="accent" aria-label="Example icon button with a home icon" (click)="ui.changePage(pageName.PROFILE)">
+            <button mat-fab color="accent" aria-label="Example icon button with a home icon" (click)="ui.changePage(pageName.PROFILE);">
                 <mat-icon >account_circle</mat-icon>
             </button>
         </div>
@@ -40,7 +40,7 @@
 <div class="recipes-container">
     <div class="recipe-wrapper">
         <!-- <h4>Family Recipes</h4> -->
-        <button type="button" id="logout-btn" mat-stroked-button color="accent" (click)="onViewRecipes()">View All Recipes!</button>
+        <button type="button" id="logout-btn" mat-stroked-button color="accent" (click)="onViewRecipes()">View Family Recipes</button>
     </div>
     <div class="hero-recipes">
         <div class="hero-recipe" *ngFor="let recipe of heroRecipes">

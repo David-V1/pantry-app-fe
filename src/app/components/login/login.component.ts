@@ -19,7 +19,6 @@ export class LoginComponent {
 
   onLogin(): void {
     this.accountService.getAccount(this.newLogin.email, this.newLogin.password);
-    this.ui.changePage(PageName.HOME);
     this.resetInputFields();
   }
 
