@@ -1,6 +1,6 @@
 <div class="recipeView-header">
     <!-- removes Id state - localStorage -->
-    <button mat-stroked-button color="warn" (click)="goBackClick()"> All Recipes</button>
+    <button mat-stroked-button color="warn" (click)="goBackClick()"> <mat-icon >arrow_back</mat-icon></button>
 </div>
 
 <div class="recipe-container" *ngIf="recipeService.recipe$ | async as recipe">

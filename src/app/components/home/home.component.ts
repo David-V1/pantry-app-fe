@@ -4,6 +4,7 @@ import { PageName } from 'src/app/enums/PageEnum';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Recipe } from 'src/app/models/Recipe';
 import { map, pipe, Subscription, take, tap } from 'rxjs';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomeComponent implements OnDestroy {
   public heroRecipes: Recipe[] =[]
   recipeSubscription: Subscription
 
-  constructor(public ui: UiService, public recipeService: RecipeService) {
+  constructor(public ui: UiService, public recipeService: RecipeService, public accountService: AccountService) {
     this.recipeSubscription = this.recipeService.recipes$
     .pipe(map(recipes =>recipes.filter(obj => obj.id! <= 3))) // 3 hero Images TODO: need to be random or Favs
     .subscribe({

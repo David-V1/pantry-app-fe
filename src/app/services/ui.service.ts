@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, PACKAGE_ROOT_URL } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PageName } from '../enums/PageEnum';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,14 +9,14 @@ import { Account } from '../models/Account';
   providedIn: 'root'
 })
 export class UiService {
-  public pageName: PageName;
+  public pageName: Number = PageName.START_UP;
   public isLoggedIn = false;
   // general FDA food groups
   public foodGroups = ['Dairy & Alternatives', 'Fruits', 'Grains', 'Meat, Fish, Egg & Alternatives', 'Vegetables', 'Fat/Oil, Salt & Sugar', 'Other'];
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar) {
     //local storage persist page 
-    localStorage.getItem('pageName') ? this.pageName = Number(localStorage.getItem('pageName')) : this.pageName = PageName.START_UP;
+    localStorage.getItem('isLoggedIn') !== 'false'  ? this.pageName = Number(localStorage.getItem('pageName')) : this.pageName = PageName.LOGIN;
   }
 
   public onValidLogin(currentAccount: Account): void {
@@ -25,6 +25,14 @@ export class UiService {
     localStorage.setItem('email', currentAccount.email);
     localStorage.setItem('password', currentAccount.password);
     localStorage.setItem('userAccountId', currentAccount.id!.toString());
+  }
+  public onUpdateAccount(updatedAccount: Account): void {
+    console.log('UPDATE ACCOUNT',updatedAccount)
+    localStorage.removeItem('email');
+    localStorage.removeItem('password');
+
+    localStorage.setItem('email', updatedAccount.email);
+    localStorage.setItem('password', updatedAccount.password);
   }
 
   public onLogout(): void {
