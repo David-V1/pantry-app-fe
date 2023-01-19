@@ -7,7 +7,7 @@ import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/models/Item';
 import { Ingredient } from 'src/app/models/Ingredient';
 import { IngredientDTO } from 'src/app/models/modelsDTO/IngredientDTO';
-import { combineLatest, filter, map, Observable, of, take, tap } from 'rxjs';
+import { combineLatest, filter, map, Observable, of, retry, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-view',
@@ -38,6 +38,7 @@ export class RecipeViewComponent {
     this.itemService.getAllItems();
     this.bindPantryItemsAndRecipeIngredients();
     
+    
   }
 
   public deleteRecipe(recipe: Recipe): void {
@@ -54,7 +55,7 @@ export class RecipeViewComponent {
   public selectedRecipeIngredients$ = combineLatest([this.recipeService.ingredients$, this.recipeService.recipe$])
   .pipe(map(([ingredients, recipes]) => 
     ingredients.filter((ingredient) => ingredient.recipes.id === recipes.id)
-  ))
+  ),retry(1)) // for when updating Recipe.
 
   public bindPantryItemsAndRecipeIngredients(){
     combineLatest([this.itemService.items$, this.selectedRecipeIngredients$]).pipe(
@@ -84,6 +85,7 @@ export class RecipeViewComponent {
   public onUpdateRecipe(recipeId: number): void {
     this.recipeService.updateRecipe(recipeId, this.updatedRecipe);
     this.showUpdateRecipe = !this.showUpdateRecipe;
+    this.recipeService.getRecipes()
   }
 
   public onUpdateIngredients(): void {

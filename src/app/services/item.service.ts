@@ -18,6 +18,9 @@ export class ItemService {
   private itemsSubject: Subject<Item[]> = new Subject<Item[]>();
   public items$: Observable<Item[]> = this.itemsSubject.asObservable();
 
+  private itemCategorySubject: Subject<number> = new Subject<number>();
+  public itemCategory$: Observable<number> = this.itemCategorySubject.asObservable();
+
   private url = 'http://localhost:8080/item';
 
 
@@ -81,8 +84,9 @@ export class ItemService {
     .pipe(take(1))
     .subscribe({
       next: () => {
-        this.getAllItems();
+        this.itemSubject.next(item);
         this.ui.openSnackBar('Item updated OK');
+        this.getAllItems();
       },
       error: err => {
         console.log(err);
@@ -109,6 +113,10 @@ export class ItemService {
       this.deleteItemById(item);
       
     })
+  }
+
+  public whenSelectCategoryId(id: number): void {
+    this.itemCategorySubject.next(id);
   }
 
 }

@@ -176,7 +176,8 @@ export class RecipeService {
     this.http.put<Recipe>(`${this.url}/${id}`, recipe)
     .pipe(take(1))
     .subscribe({
-      next: () => {
+      next: (updatedRecipe) => {
+        this.recipeSubject.next(updatedRecipe);
         this.ui.openSnackBar(`Recipe '${recipe.name}' updated`);
         this.getRecipes();
       },
