@@ -5,30 +5,50 @@
     <button mat-stroked-button color="accent" (click)="ui.changePage(pageName.ITEM_ADD)"><mat-icon>add</mat-icon>Add Item</button>
 </div>
 
+<!-- General all pantry items -->
 <div class="pantry-container">
+    <button mat-stroked-button color="warn" (click)="onAllItems()">All Pantry Items</button>
     <div class="items-wrapper">
-        <h2>All Pantry Items</h2>
         <div class="pantry-items-container" *ngIf="itemService.items$ | async as pantryItems">
             <ng-container *ngFor="let item of pantryItems">
-                <div class="item-card">
-                    <div class="item-img" (click)="onSelectItem(item)">
+                <div class="item-card" *ngIf="showAllItems">
+                    <div class="item-img" (click)="onSelectItem(item)" >
                         <img src="{{item.image}}" alt="item image" height="150" >
+                        <h4>{{item.name}}</h4>
                     </div>
-                    <h6>{{item.name}}</h6>
                 </div>
             </ng-container>
         </div>
     </div>
 </div>
+    
+
+<!-- Pantry items by category -->
 <div class="category-container">
     <div class="category-wrapper">
         <h2>Category Items</h2>
-        <div class="pantry-category-container" *ngIf="items">
-            <ng-container *ngFor="let category of ui.foodGroups">
-                <div class="category-card">
-                    <h6>{{category}}</h6>
-                </div>
-            </ng-container>
-        </div>
+        <h4>Basic mat-select</h4>
+        <mat-form-field appearance="fill">
+        <mat-label>Select category</mat-label>
+        <mat-select [(ngModel)]="dropdownSelection" >
+            <mat-option ></mat-option>
+            <mat-option *ngFor="let category of ui.foodGroups" [value]="category">
+            {{category}}
+            </mat-option>
+        </mat-select>
+        </mat-form-field>
     </div>
 </div>
+<div class="pantry-category-container" >
+    <div class="pantry-items-container" *ngIf="itemService.items$ | async as pantryItems">
+        <ng-container *ngFor="let item of pantryItems">
+            <div class="item-card" *ngIf="item.category === dropdownSelection">
+                <div class="item-img" (click)="onSelectItem(item)">
+                    <img src="{{item.image}}" alt="item image" height="150" >
+                    <h4>{{item.name}}</h4>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+ 

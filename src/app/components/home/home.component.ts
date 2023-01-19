@@ -38,6 +38,11 @@ export class HomeComponent implements OnDestroy {
     this.ui.changePage(this.pageName.RECIPE_VIEW)
   }
 
+  public onLogout(): void {
+    this.ui.onLogout();
+    this.ui.changePage(this.pageName.START_UP)
+  }
+
   ngOnDestroy(): void {
     this.recipeSubscription.unsubscribe();
   }

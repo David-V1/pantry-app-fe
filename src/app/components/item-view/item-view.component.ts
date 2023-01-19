@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { Item } from 'src/app/models/Item';
@@ -11,11 +11,16 @@ import { ItemEditComponent } from '../item-edit/item-edit.component';
   templateUrl: './item-view.component.html',
   styleUrls: ['./item-view.component.css']
 })
-export class ItemViewComponent {
+export class ItemViewComponent implements OnDestroy {
   public pageName = PageName;
 
   constructor(public ui: UiService, public itemService: ItemService, public dialog: MatDialog) { 
+    //Persisting the item
     this.itemService.getItemById(Number(localStorage.getItem('selectedItemId')));
+    
+  }
+  ngOnDestroy(): void {
+    this.itemService.getAllItems();
   }
 
   goBackClick(): void {
@@ -36,11 +41,14 @@ export class ItemViewComponent {
     dialogRef.afterClosed().subscribe(result => {
       // Clicks outside dialog box
       if (result === undefined) return;
-
-      if (result.weight === undefined && result.metric) return this.ui.onError('Please enter a weight');
-      if (result.metric === undefined && result.weight) return this.ui.onError('Please enter a unit of measurement');
+      if (result.weight === null){
+        result.metric = undefined;
+      }
+      if (result.quantity === null && result.weight === null && result.metric) return this.ui.onError('Please enter a weight');
+      if (result.quantity === null && result.metric === undefined && result.weight) return this.ui.onError('Please enter the unit of measurement');
+      if (result.quantity === null && result.metric === undefined && result.weight === null) return this.ui.onError('Please enter a quantity or weight');
       if (result.name === undefined) return this.ui.onError('Please Enter a name');
-      if (result.calories === undefined) return this.ui.onError('Please enter a calorie count');
+      if (result.calories === null) return this.ui.onError('Please enter a calorie count');
       if (result.category === undefined) return this.ui.onError('Please enter a category');
 
       const newUpdatedItem: Item = {
@@ -54,9 +62,7 @@ export class ItemViewComponent {
         category: result.category
       }
       this.itemService.updateItemById(newUpdatedItem);
-      location.reload();
     });
-    // this.ui.changePage(this.pageName.PANTRY);
   }
 
 }

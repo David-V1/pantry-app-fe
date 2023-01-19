@@ -25,7 +25,6 @@ export class ItemEditComponent implements OnDestroy {
     this.itemService.getItemById(Number(localStorage.getItem('selectedItemId')));
   }
   
-
   public dialogValues(): void {
     const newData: Item = {
       id: this.updatedItem.id,
@@ -37,7 +36,6 @@ export class ItemEditComponent implements OnDestroy {
       calories: this.updatedItem.calories,
       category: this.updatedItem.category
     }
-    
     this.matDialogRef.close(newData);
   }
 

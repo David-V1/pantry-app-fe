@@ -62,7 +62,6 @@ export class ItemAddComponent implements OnInit, OnDestroy {
 
      
       this.itemService.addItem(this.newItem);
-      console.log(this.newItem);
       this.resetFields();
     }
 
