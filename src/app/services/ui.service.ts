@@ -11,6 +11,7 @@ import { Account } from '../models/Account';
 export class UiService {
   public pageName: Number = PageName.START_UP;
   public isLoggedIn = false;
+  public currentUserId: number = Number(localStorage.getItem('userAccountId'));
   // general FDA food groups
   public foodGroups = ['Dairy & Alternatives', 'Fruits', 'Grains', 'Meat, Fish, Egg & Alternatives', 'Vegetables', 'Fat/Oil, Salt & Sugar', 'Other'];
 
@@ -20,11 +21,11 @@ export class UiService {
   }
 
   public onValidLogin(currentAccount: Account): void {
-    this.isLoggedIn = true;
-    localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('email', currentAccount.email);
     localStorage.setItem('password', currentAccount.password);
     localStorage.setItem('userAccountId', currentAccount.id!.toString());
+    localStorage.setItem('isLoggedIn', 'true');
+    this.isLoggedIn = true;
   }
   public onUpdateAccount(updatedAccount: Account): void {
     console.log('UPDATE ACCOUNT',updatedAccount)

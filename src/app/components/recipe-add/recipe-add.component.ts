@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { RecipeService } from 'src/app/services/recipe.service';
+import { RecipeDTO } from 'src/app/models/modelsDTO/RecipeDTO';
+import { Account } from 'src/app/models/Account';
 
 @Component({
   selector: 'app-recipe-add',
@@ -11,21 +13,20 @@ import { RecipeService } from 'src/app/services/recipe.service';
 export class RecipeAddComponent {
   public pageName = PageName;
 
-  public newRecipe = {
+  public newRecipe: RecipeDTO = {
     id: null,
     name: '',
     image: '',
-    instructions: ''
+    instructions: '',
+    account: {} as Account
   }
 
   constructor(public ui: UiService, public recipeService: RecipeService) { }
 
-  public onAddRecipe(): void {
-    console.log(this.newRecipe);
-    this.recipeService.addRecipe(this.newRecipe);
+  public addRecipeDTO(): void {
+    this.recipeService.addRecipeDTO(this.newRecipe);
     this.ui.changePage(this.pageName.RECIPE);
     this.resetInputFields();
-    location.reload();
   }
 
   resetInputFields() {
@@ -33,7 +34,8 @@ export class RecipeAddComponent {
       id: null,
       name: '',
       image: '',
-      instructions: ''
+      instructions: '',
+      account: {} as Account
     }
   }
 

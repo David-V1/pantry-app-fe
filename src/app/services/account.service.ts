@@ -69,11 +69,12 @@ export class AccountService {
     .pipe(take(1))
     .subscribe({
       next: account => {
-        console.log('subscribe => account: ',account)
+        this.ui.onValidLogin(account);
         this.currentAccount = account;
-        this.ui.onValidLogin(this.currentAccount);
         this.accountSubject.next(account);
         this.ui.changePage(this.pageName.HOME)
+        
+        
         
       },
       error: err => {
@@ -92,7 +93,6 @@ export class AccountService {
     .subscribe( account => {
       this.currentAccount = account
       this.accountSubject.next(account)
-      console.log(this.currentAccount)
     })
   }
 
@@ -120,5 +120,17 @@ export class AccountService {
 
 
   // D - Delete
+  public deleteAccount(id:number): void {
+    this.http.delete<Account>(`${this.url}/${id}`)
+    .pipe(take(1))
+    .subscribe({
+      next: () => {
+        this.getAllAccounts();
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+  }
 
 }

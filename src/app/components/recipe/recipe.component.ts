@@ -5,7 +5,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { Recipe } from 'src/app/models/Recipe';
 import { RecipeDTO } from 'src/app/models/modelsDTO/RecipeDTO';
 import { AccountService } from 'src/app/services/account.service';
-import { map, Subscription } from 'rxjs';
+import { filter, map, Subscription, tap } from 'rxjs';
 
 @Component({
   selector: 'app-recipe',
@@ -14,24 +14,29 @@ import { map, Subscription } from 'rxjs';
 })
 export class RecipeComponent implements OnDestroy{
     public pageName = PageName;
-    public recipes: Recipe[] | RecipeDTO[] = [];
+    public recipes: RecipeDTO[] = [];
     recipeSubscription: Subscription;
    
     constructor(public ui: UiService, public recipeService: RecipeService, public accountService: AccountService) { 
+      this.recipeService.getRecipesDTO();
       
       this.recipeSubscription= this.recipeService.recipesDTO$
-        // .pipe(map(recipe => recipe.map(r => r.account.id === this.recipeService.userId)))
-        .pipe(map(recipe => recipe.filter(r => r.account.id === this.recipeService.userId)))
+        // only get User Recipes for display
+        .pipe(
+          map(recipe => recipe.filter((recipeId: RecipeDTO) => recipeId.account.id! === this.ui.currentUserId)))
         .subscribe({
           next: recipesDTO => {
             this.recipes = recipesDTO;
-            // console.log(this.recipes)
-          }})
-        this.recipeService.getRecipesDTO();
+          },
+          error: err => {
+            console.log(err);
+            this.ui.onError('Error getting recipes');
+          }});
+          this.recipeService.getRecipesDTO();
+        
     }
   
     public onSelectRecipe(id: number) {
-      // this.recipeService.selectedRecipe = id;
       this.recipeService.getRecipeById(id);
       this.ui.changePage(this.pageName.RECIPE_VIEW)
     }
