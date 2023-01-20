@@ -37,20 +37,23 @@ export class RecipeViewComponent {
     this.recipeService.getAllIngredients();
     this.itemService.getAllItems();
     this.bindPantryItemsAndRecipeIngredients();
-    
-    
   }
 
-  public deleteRecipe(recipe: Recipe): void {
-    this.recipeService.deleteRecipeById(recipe)
-    this.ui.changePage(this.pageName.RECIPE);
-    localStorage.removeItem('selectedRecipeId');
-  }
+  //********************
+  // Get the items to process and update quantites or weight.
+  public matchingPantryItems$ = combineLatest([
+    this.recipeService.ingredients$, 
+    this.itemService.items$, 
+    this.recipeService.recipe$])
+  .pipe(
+    map(([ingredients, items, recipes]) =>
+      // ingredients.filter((ingredient) => ingredient.recipes.id === recipes.id && items.map(item => item.name.toLocaleLowerCase() === ingredient.name.toLocaleLowerCase())) //<- links ingredients to recipe
+      ingredients.filter((ingredient) => ingredient.recipes.id === recipes.id), //<- links ingredients to recipe
+    )).subscribe(x => console.log(x))
 
-  public goBackClick(): void {
-    this.ui.changePage(this.pageName.RECIPE);
-    localStorage.removeItem('selectedRecipeId');
-  }
+    
+
+//***************
   // Depending on the recipe, get the ingredients that match the recipe id
   public selectedRecipeIngredients$ = combineLatest([this.recipeService.ingredients$, this.recipeService.recipe$])
   .pipe(map(([ingredients, recipes]) => 
@@ -101,6 +104,17 @@ export class RecipeViewComponent {
 
   public hideEdit(): void {
     this.edit = false;
+  }
+
+  public deleteRecipe(recipe: Recipe): void {
+    this.recipeService.deleteRecipeById(recipe)
+    localStorage.removeItem('selectedRecipeId');
+    this.ui.changePage(this.pageName.RECIPE);
+  }
+
+  public goBackClick(): void {
+    this.ui.changePage(this.pageName.RECIPE);
+    localStorage.removeItem('selectedRecipeId');
   }
 
 }

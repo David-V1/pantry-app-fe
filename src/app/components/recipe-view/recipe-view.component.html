@@ -11,7 +11,6 @@
         <button mat-stroked-button color="warn" (click)="showEditRecipe()">Edit Recipe</button>
         <button mat-stroked-button color="warn" (click)="onCookRecipe()">Cook Recipe!</button>
     </div>
-    
     <h1>{{recipe.name}}</h1>
 
     <!-- Update input for Recipe -->
@@ -25,16 +24,6 @@
         <img src="{{recipe.image}}" height="350" alt="selected Image">
     </div>
 
-    <!-- RxJs CombinedLatest -->
-    <!-- <div class="selected-Ingredients">
-        <ng-container *ngIf="selectedRecipeIngredients$ | async as recipeIngredients">
-            <div class="ingredients-container" *ngFor="let ingredient of recipeIngredients">
-                <ul>
-                    <li>{{ingredient.name}} | {{ingredient.weight ? ingredient.weight: ingredient.quantity }} {{ingredient.weight? ingredient.metric : ''}}</li>
-                </ul>
-            </div>
-        </ng-container>
-    </div> -->
     <!-- Display the recipe ingredients -->
     <div class="ingredients-container">
         <ng-container *ngIf="recipeService.ingredients$ | async as recipeIngredients">
@@ -47,11 +36,8 @@
                 </ng-container>
             </ng-container>
         </ng-container>
-        
     </div>
-
-    
-
+    <!-- Display Instructions -->
     <div class="instructions-container" *ngIf="!edit">
         <h2>Instructions</h2>
         <p>{{recipe.instructions}}</p>
@@ -68,8 +54,6 @@
               <mat-icon>close</mat-icon>
             </button>
         </mat-form-field>
-        <!-- <input type="text" name="ingredient" id="i-name" placeholder="ingredient name" [(ngModel)]="updatedIngredient.name"> -->
-        <!-- <input type="number" name="amount" id="i-amount" placeholder="amount" [(ngModel)]="updatedIngredient.weight"> -->
         <mat-form-field class="example-form-field" *ngIf="!slider">
             <mat-label>Ingredient Weight</mat-label>
             <input matInput type="number" [(ngModel)]="updatedIngredient.weight" >
@@ -90,8 +74,6 @@
             <mat-slide-toggle [(ngModel)]="slider">Slide for {{slider ? 'Units' : 'Quantity'}} instead </mat-slide-toggle>
             
             <div class="qty-wrapper" *ngIf="slider">
-                <!-- <input type="number" placeholder="Enter Quantity" [(ngModel)]="updatedIngredient.quantity">
-                 -->
                  <mat-form-field class="example-form-field">
                     <mat-label>Enter Quantity</mat-label>
                     <input matInput type="number" [(ngModel)]="updatedIngredient.quantity" >

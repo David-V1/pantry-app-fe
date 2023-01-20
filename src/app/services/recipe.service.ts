@@ -194,8 +194,8 @@ export class RecipeService {
     .pipe(take(1))
     .subscribe({
       next: () => {
-        this.ui.openSnackBar(`Recipe '${recipe.name}' deleted`);
         this.getRecipes();
+        this.ui.openSnackBar(`Recipe '${recipe.name}' deleted`);
       },
       error: err => {
         console.log(err);

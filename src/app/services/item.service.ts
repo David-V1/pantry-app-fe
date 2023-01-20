@@ -3,7 +3,7 @@ import { UiService } from './ui.service';
 import { PageName } from '../enums/PageEnum';
 import { Item } from '../models/Item';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map, Observable, Subject, take, tap } from 'rxjs';
+import {  Observable, Subject, take} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -33,10 +33,11 @@ export class ItemService {
     this.http.post<Item>(`${this.url}`, item)
     .pipe(take(1))
     .subscribe({
-      next: item => {
+      next: () => {
+        console.log('Inside of POST item',item)
         this.itemSubject.next(item);
         this.getAllItems();
-        this.ui.openSnackBar('Item added OK');
+        this.ui.openSnackBar(`${item.name} added to pantry`);
       },
       error: err => {
         console.log(err);
@@ -107,11 +108,11 @@ export class ItemService {
       })
     }
 
+  // Contains [] items that match category
   public deletePantryItemsOnCook(items: Item[]): void {
     if (items.length === 0) return this.ui.onError('You don\'t have any items in your pantry');
     items.forEach(item => {
       this.deleteItemById(item);
-      
     })
   }
 
