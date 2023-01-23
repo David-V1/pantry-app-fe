@@ -172,12 +172,13 @@ export class RecipeService {
     })
   }
 
-  public updateRecipe(id: number, recipe: Recipe): void {
-    this.http.put<Recipe>(`${this.url}/${id}`, recipe)
+  public updateRecipe(recipe: Recipe): void {
+    console.log('RECIPE: ',recipe)
+    this.http.put<Recipe>(`${this.url}/${recipe.id}`, recipe)
     .pipe(take(1))
     .subscribe({
-      next: (updatedRecipe) => {
-        this.recipeSubject.next(updatedRecipe);
+      next: () => {
+        this.recipeSubject.next(recipe);
         this.ui.openSnackBar(`Recipe '${recipe.name}' updated`);
         this.getRecipes();
       },

@@ -16,19 +16,29 @@ import { combineLatest, filter, map, Observable, of, retry, take, tap } from 'rx
 })
 export class RecipeViewComponent {
   public pageName = PageName;
-  currentRecipeId = Number(localStorage.getItem('selectedRecipeId'));
-  itemsToDelete: Item[] = [];
-
+  public currentRecipeId = Number(localStorage.getItem('selectedRecipeId'));
+  public itemsToDelete: Item[] = [];
+  
   // Recipe Update
-  updatedRecipe = {} as Recipe;
-  showUpdateRecipe = false;
+  public updatedRecipe = {} as Recipe;
+  public showEditIcon = false;
+  public recipeNewValue: string = '';
+
+  //Text Area
+  public textAreaInput: string = this.recipeNewValue;
+  public paragraphs: Array<string> = [];
+
+  //Toggle Input boxes
+  public showEditRecipeName = false;
+  public showEditRecipeImage = false;
+  public showEditRecipeInstructions = false;
 
   //Ingredient Update
-  updatedIngredient = {} as Ingredient;
-  slider = false;
-  metricUnits = ['g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pt', 'qt', 'gal']; 
-  edit = false;
-  currentIngredientId: number | null = null;
+  public updatedIngredient = {} as Ingredient;
+  public slider = false;
+  public metricUnits = ['g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pt', 'qt', 'gal']; 
+  public edit = false;
+  public currentIngredientId: number | null = null;
 
   
   
@@ -49,7 +59,8 @@ export class RecipeViewComponent {
     map(([ingredients, items, recipes]) =>
       // ingredients.filter((ingredient) => ingredient.recipes.id === recipes.id && items.map(item => item.name.toLocaleLowerCase() === ingredient.name.toLocaleLowerCase())) //<- links ingredients to recipe
       ingredients.filter((ingredient) => ingredient.recipes.id === recipes.id), //<- links ingredients to recipe
-    )).subscribe(x => console.log(x))
+    ))
+    // .subscribe(x => console.log(x))
 
     
 
@@ -76,25 +87,18 @@ export class RecipeViewComponent {
     })
   }
   
-  public showEdit(ingredientid:number): void {
+  public showEditIngredient(ingredientid:number): void {
     this.currentIngredientId = ingredientid;
     this.edit = !this.edit;
   }
 
-  showEditRecipe(): void{
-    this.showUpdateRecipe = !this.showUpdateRecipe;
-  }
-  
-  public onUpdateRecipe(recipeId: number): void {
-    this.recipeService.updateRecipe(recipeId, this.updatedRecipe);
-    this.showUpdateRecipe = !this.showUpdateRecipe;
-    this.recipeService.getRecipes()
+  toggleEditRecipeIcons(): void{
+    this.showEditIcon = !this.showEditIcon;
   }
 
   public onUpdateIngredients(): void {
     this.edit = !this.edit;  
     this.recipeService.updateIngredient(this.currentIngredientId!,this.updatedIngredient);
-
   }
 
   public onCookRecipe(): void {
@@ -103,7 +107,7 @@ export class RecipeViewComponent {
   }
 
   public hideEdit(): void {
-    this.edit = false;
+    this.edit = !this.edit;
   }
 
   public deleteRecipe(recipe: Recipe): void {
@@ -117,4 +121,68 @@ export class RecipeViewComponent {
     localStorage.removeItem('selectedRecipeId');
   }
 
+  // PUT
+  public onEditRecipeName(recipe: Recipe): void {
+    if (this.recipeNewValue === '') return this.ui.onError('Name cannot be empty');
+    const newRecipeName: Recipe = {
+      id: recipe.id,
+      name: this.recipeNewValue,
+      image: recipe.image,
+      instructions: recipe.instructions,
+    }
+    this.recipeService.updateRecipe(newRecipeName);
+    this.toggleRecipeName();
+    this.toggleEditRecipeIcons();
+    this.recipeNewValue = '';
+  }
+
+  public onEditRecipeImage(recipe: Recipe): void {
+    if (this.recipeNewValue === '') return this.ui.onError('Image cannot be empty');
+    const newRecipeImage: Recipe = {
+      id: recipe.id,
+      name: recipe.name,
+      image: this.recipeNewValue,
+      instructions: recipe.instructions,
+    }
+    this.recipeService.updateRecipe(newRecipeImage);
+    this.toggleRecipeImage();
+    this.toggleEditRecipeIcons();
+    this.recipeNewValue = '';
+  }
+
+  public onEditRecipeInstructions(recipe: Recipe): void {
+    if (this.recipeNewValue === '') return this.ui.onError('Instructions cannot be empty');
+    const newRecipeInstructions: Recipe = {
+      id: recipe.id,
+      name: recipe.name,
+      image: recipe.image,
+      instructions: this.recipeNewValue,
+    }
+    this.recipeService.updateRecipe(newRecipeInstructions);
+    this.toggleRecipeInstructions();
+    this.toggleEditRecipeIcons();
+    this.recipeNewValue = '';
+  }
+
+  public toggleRecipeName(): void {
+    this.showEditRecipeName = !this.showEditRecipeName;
+  }
+
+  public toggleRecipeImage(): void {
+    this.showEditRecipeImage = !this.showEditRecipeImage;
+  }
+
+  public toggleRecipeInstructions(): void {
+    this.showEditRecipeInstructions = !this.showEditRecipeInstructions;
+  }
+
+  public instructionParagraphs(instructions: string): string[] {
+    let steps: string[] = [];
+    this.paragraphs = instructions.split(/[\r\n]+/); // split on new lines
+    this.paragraphs.forEach((paragraph, index) => {
+      steps.push(`Step ${index + 1}.)    ${paragraph}`)
+    })
+    return steps;
+  }
+  
 }
