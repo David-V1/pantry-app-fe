@@ -70,7 +70,6 @@ export class ItemService {
       next: item => {
         this.itemSubject.next(item);
         this.getAllItems();
-        
       },
       error: err => {
         console.log(err);
