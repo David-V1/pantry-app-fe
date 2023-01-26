@@ -5,6 +5,7 @@ import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { distinct, filter, map, Subscription, tap } from 'rxjs';
 import { ConstantPool } from '@angular/compiler';
+import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
   selector: 'app-item-add',
@@ -14,7 +15,7 @@ import { ConstantPool } from '@angular/compiler';
 export class ItemAddComponent implements OnInit, OnDestroy {
   public pageName = PageName;
   public slider = false
-  public metricUnits = ['g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pt', 'qt', 'gal'];
+  public metricUnits = this.recipeService.recipeVolumeOptions;
   public currentCategories: string[] = [];
   editMode = false;
   itemSubscription: Subscription
@@ -30,7 +31,7 @@ export class ItemAddComponent implements OnInit, OnDestroy {
     category: ''
   }
 
-  constructor(public itemService: ItemService, public ui: UiService) {
+  constructor(public itemService: ItemService, public ui: UiService, public recipeService: RecipeService) {
     this.itemSubscription = this.itemService.items$
     .pipe(map(items => items.map(item => item.category)))
     .subscribe(categories => {

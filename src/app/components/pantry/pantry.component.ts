@@ -15,7 +15,7 @@ export class PantryComponent implements OnDestroy {
   public items: Item[] = [];
   public categories: string[] = [];
   itemSubscription: Subscription;
-  public showAllItems = false;
+  public showAllItems = true;
   public dropdownSelection: string = '';
 
   constructor(public ui: UiService, public itemService: ItemService) { 
@@ -28,9 +28,13 @@ export class PantryComponent implements OnDestroy {
     this.ui.changePage(this.pageName.ITEM_VIEW);
   }
 
-  public onAllItems(): void {
-    this.showAllItems = !this.showAllItems;
+  public hideAllItems(): void {
+    this.showAllItems = false;
+  }
 
+  public onAllPantryItems(): void {
+    this.showAllItems = true;
+    this.dropdownSelection = '';
   }
 
   public categoriess(): string[] {
