@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Item } from 'src/app/models/Item';
 import { ItemService } from 'src/app/services/item.service';
+import { RecipeService } from 'src/app/services/recipe.service';
 import { UiService } from 'src/app/services/ui.service';
 
 @Component({
@@ -14,10 +15,10 @@ export class ItemEditComponent implements OnDestroy {
   isChecked: boolean = false;
   updatedItem: Item ={} as Item; // xfer to dialog
   item: Item = {} as Item; // casting current item info to input fields
-  public metricUnits = ['g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pt', 'qt', 'gal'];
+  public metricUnits = this.recipeService.recipeVolumeOptions;
   public itemSub: Subscription;
 
-  constructor(public ui: UiService, private matDialogRef: MatDialogRef<ItemEditComponent>, public itemService: ItemService) {
+  constructor(public ui: UiService, private matDialogRef: MatDialogRef<ItemEditComponent>, public itemService: ItemService, public recipeService: RecipeService) {
     this.itemSub = this.itemService.item$.subscribe(item => {
       this.item = item;
 

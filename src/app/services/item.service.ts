@@ -95,6 +95,13 @@ export class ItemService {
     })
   }
 
+  public updateItemQuantitiesOnCook(items: Item[]): void {
+    if (items.length === 0) return this.ui.onError('You don\'t have any items in your pantry');
+    items.forEach((item) => {
+      this.updateItemById(item);
+    })
+  }
+
   //DELETE
   public deleteItemById(item:Item): void {
     this.http.delete<Item>(`${this.url}/${item.id}`)
@@ -108,8 +115,8 @@ export class ItemService {
     }
 
   // Contains [] items that match category
-  public deletePantryItemsOnCook(items: Item[]): void {
-    if (items.length === 0) return this.ui.onError('You don\'t have any items in your pantry');
+  public deletePantryItemsOnCook(items: Set<Item>): void {
+    if (items.size === 0) return this.ui.onError('You don\'t have any items in your pantry');
     items.forEach(item => {
       this.deleteItemById(item);
     })

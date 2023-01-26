@@ -13,7 +13,7 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 export class IngredientAddComponent {
   public pageName = PageName;
   slider = false;
-  public metricUnits = ['g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pt', 'qt', 'gal'];
+  public metricUnits = this.recipeService.recipeVolumeOptions;
   public addedIngredients: Ingredient[] = []
 
   

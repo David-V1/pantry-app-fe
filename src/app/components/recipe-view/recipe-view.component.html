@@ -55,10 +55,11 @@
                     <ng-container *ngIf="!edit" >
                         <mat-icon  id="edit-ingredient" (click)="showEditIngredient(ingredient.id!)" *ngIf="showEditIcon">edit</mat-icon>
                         <ul>
-                            <li>{{ingredient.quantity ? ingredient.quantity : '' }} {{ingredient.weight ? ingredient.weight : ''}} {{ ingredient.weight ? ingredient.metric + ' of' : '' }}   {{ingredient.name}}</li>
+                            <li><mat-icon (click)="onDeleteIngredientById(ingredient.id!)" *ngIf="showEditIcon">remove_circle</mat-icon>
+                                {{ingredient.quantity ? ingredient.quantity : '' }} {{ingredient.weight ? ingredient.weight : ''}} {{ ingredient.weight ? ingredient.metric + ' of' : '' }}   {{ingredient.name}}
+                            </li>
                         </ul>
                     </ng-container>
-                    
                 </ng-container>
             </ng-container>
         </ng-container>
@@ -117,7 +118,6 @@
         <div id="r-instructions-steps" *ngIf="!showEditRecipeInstructions">
             <p *ngFor="let paragraph of instructionParagraphs(recipe.instructions)"> {{paragraph}}</p> 
         </div>
-        
     </div>
     <!-- onEdit Inputbox for Recipe Name -->
     <mat-form-field class="example-full-width instructions-form"  *ngIf="showEditRecipeInstructions">
