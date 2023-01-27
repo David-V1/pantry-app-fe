@@ -3,7 +3,8 @@ import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { Item } from 'src/app/models/Item';
 import {ItemService} from 'src/app/services/item.service';
-import { Subscription } from 'rxjs';
+import { map, pipe, Subscription, tap } from 'rxjs';
+import { ItemDTO } from 'src/app/models/modelsDTO/ItemDTO';
 
 @Component({
   selector: 'app-pantry',
@@ -12,15 +13,26 @@ import { Subscription } from 'rxjs';
 })
 export class PantryComponent implements OnDestroy {
   public pageName = PageName;
-  public items: Item[] = [];
+  // public items: Item[] = []; // This is the original line
+  public items: ItemDTO[] = [];
   public categories: string[] = [];
   itemSubscription: Subscription;
   public showAllItems = true;
   public dropdownSelection: string = '';
 
   constructor(public ui: UiService, public itemService: ItemService) { 
-    this.itemSubscription = this.itemService.items$.subscribe(items => this.items = items);
-    this.itemService.getAllItems();
+    this.itemService.getAllItemsDTO();
+
+    this.itemSubscription = this.itemService.itemsDTO$
+    .pipe(
+      map(items => items.filter(item => item.account.id === this.ui.currentUserId)),
+      tap(i => console.log(i))
+    )
+    .subscribe(itemsDTO =>{ 
+      this.items = itemsDTO
+      console.log(this.items)
+    });
+    this.itemService.getAllItemsDTO();
   }
 
   public onSelectItem(item: Item): void {

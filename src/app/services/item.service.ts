@@ -4,6 +4,7 @@ import { PageName } from '../enums/PageEnum';
 import { Item } from '../models/Item';
 import { HttpClient } from '@angular/common/http';
 import {  Observable, Subject, take} from 'rxjs';
+import { ItemDTO } from '../models/modelsDTO/ItemDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import {  Observable, Subject, take} from 'rxjs';
 export class ItemService {
   public pageName = PageName;
   public items: Item[] = [];
+  public itemsDTO: ItemDTO[] = [];
   
   private itemSubject: Subject<Item> = new Subject<Item>();
   public item$: Observable<Item> = this.itemSubject.asObservable();
@@ -18,14 +20,20 @@ export class ItemService {
   private itemsSubject: Subject<Item[]> = new Subject<Item[]>();
   public items$: Observable<Item[]> = this.itemsSubject.asObservable();
 
+  private itemsDTOSubject: Subject<ItemDTO[]> = new Subject<ItemDTO[]>();
+  public itemsDTO$: Observable<ItemDTO[]> = this.itemsDTOSubject.asObservable();
+
   private itemCategorySubject: Subject<number> = new Subject<number>();
   public itemCategory$: Observable<number> = this.itemCategorySubject.asObservable();
 
   private url = 'http://localhost:8080/item';
 
+  private userId = Number(localStorage.getItem('userAccountId'))
+
 
   constructor(public ui: UiService, public http: HttpClient) { 
     this.getAllItems();
+    this.getAllItemsDTO();
   }
 
   // POST
@@ -45,6 +53,23 @@ export class ItemService {
       }})
   }
 
+  public addItemDTO(item: ItemDTO): void {
+    this.http.post<ItemDTO>(`${this.url}/${this.userId}`, item)
+    .pipe(take(1))
+    .subscribe({
+      next: () => {
+        console.log('Inside of POST item',item)
+        this.itemSubject.next(item);
+        this.getAllItems();
+        this.ui.openSnackBar(`${item.name} added to pantry`);
+      },
+      error: err => {
+        console.log(err);
+        this.ui.onError('Error adding item');
+      }})
+  }
+  
+
   //GET
   public getAllItems(): void {
     this.http.get<Item[]>(this.url)
@@ -53,6 +78,21 @@ export class ItemService {
       next: items => {
         this.items = items;
         this.itemsSubject.next(this.items);
+      },
+      error: err => {
+        console.log(err);
+        this.ui.onError('Error getting items');
+      }
+    })
+  }
+
+  public getAllItemsDTO(): void {
+    this.http.get<ItemDTO[]>(`${this.url}`)
+    .pipe(take(1))
+    .subscribe({
+      next: items => {
+        this.itemsDTO = items;
+        this.itemsDTOSubject.next(items);
       },
       error: err => {
         console.log(err);

@@ -6,6 +6,8 @@ import { PageName } from 'src/app/enums/PageEnum';
 import { distinct, filter, map, Subscription, tap } from 'rxjs';
 import { ConstantPool } from '@angular/compiler';
 import { RecipeService } from 'src/app/services/recipe.service';
+import { Account } from 'src/app/models/Account';
+import { ItemDTO } from 'src/app/models/modelsDTO/ItemDTO';
 
 @Component({
   selector: 'app-item-add',
@@ -20,7 +22,7 @@ export class ItemAddComponent implements OnInit, OnDestroy {
   editMode = false;
   itemSubscription: Subscription
 
-  public newItem: Item = {
+  public newItem: ItemDTO = {
     id: null,
     name: '',
     image: '',
@@ -28,7 +30,8 @@ export class ItemAddComponent implements OnInit, OnDestroy {
     metric: '',
     quantity: 0,
     calories: 0,
-    category: ''
+    category: '',
+    account: {} as Account
   }
 
   constructor(public itemService: ItemService, public ui: UiService, public recipeService: RecipeService) {
@@ -51,7 +54,7 @@ export class ItemAddComponent implements OnInit, OnDestroy {
    
 
     
-    public onAddItem(): void {
+    public onAddItemDTO(): void {
       if (this.newItem.name === '' ) return this.ui.onError('Please Enter a name for the item');
       if (this.newItem.weight <= 0 && this.newItem.metric === '' && this.newItem.quantity === 0) return this.ui.onError('Please enter a measurement for the item');
       if (this.newItem.weight !== 0 && this.newItem.metric === '') return this.ui.onError('Please select a metric for the item');
@@ -62,7 +65,7 @@ export class ItemAddComponent implements OnInit, OnDestroy {
       if (this.newItem.category === '') return this.ui.onError('Please select a category for the item');
 
      
-      this.itemService.addItem(this.newItem);
+      this.itemService.addItemDTO(this.newItem);
       this.resetFields();
     }
 
@@ -75,7 +78,8 @@ export class ItemAddComponent implements OnInit, OnDestroy {
         metric: '',
         quantity: 0,
         calories: 0,
-        category: ''
+        category: '',
+        account: {} as Account
       }
     }
     public goBackClick(): void{
