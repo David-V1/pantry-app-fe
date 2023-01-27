@@ -80,24 +80,30 @@ export class ItemService {
 
   //PUT
   public updateItemById(item: Item): void {
+    console.log('Item that was sent to update by updateItemQuantitiesOnCook',item)
     this.http.put<Item>(`${this.url}/${item.id}`, item)
     .pipe(take(1))
     .subscribe({
       next: () => {
+        console.log('Item after subscribe() inside of updateItemById()',item)
         this.itemSubject.next(item);
         this.ui.openSnackBar('Item updated OK');
         this.getAllItems();
       },
       error: err => {
+        console.log('Error inside of updateItemById()', err)
         console.log(err);
+        console.error(err);
         this.ui.onError('Error updating item');
       }
     })
   }
 
   public updateItemQuantitiesOnCook(items: Item[]): void {
+    console.log('Array being sent to updateItemQuantitiesOnCook :', items)
     if (items.length === 0) return this.ui.onError('You don\'t have any items in your pantry');
     items.forEach((item) => {
+      console.log('Item being sent to update inside of updateItemQuantitiesOnCook forEach():', item)
       this.updateItemById(item);
     })
   }

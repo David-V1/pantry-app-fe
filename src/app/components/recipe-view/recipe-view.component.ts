@@ -271,13 +271,20 @@ export class RecipeViewComponent implements OnInit {
             }
             this.pantryItemsReadyForUpdate.push(updatedItem)
           };
-
-          if (matchingItem.quantity === ingredient.quantity) this.itemssToDelete.add(matchingItem)
+          console.log('matchingItem: ', matchingItem, 'ingredient: ', ingredient)
+          console.log('matchingItem.quantity: ', matchingItem.quantity, 'ingredient.quantity: ', ingredient.quantity)
+          if (matchingItem.quantity === ingredient.quantity && matchingItem.quantity !== 0 && ingredient.quantity !== 0) this.itemssToDelete.add(matchingItem)
 
           //Checking for items that have weight
           if (matchingItem.weight && ingredient.weight){
+            // console.log('matchingItem: ', matchingItem)
+            // console.log('OG Weight',matchingItem.weight, 'OG Metric',matchingItem.metric)
+            // console.log('Ingredient Weight',ingredient.weight,'Ingredient Metric',ingredient.metric)
+            // console.log('')
+            
             let itemCovertedWeight = this.recipeService.convert(matchingItem.weight, matchingItem.metric, ingredient.metric)
-
+            // console.log('Pantry item weight:',matchingItem.weight,' From this Metric:',matchingItem.metric, 'To this Metric:',ingredient.metric)
+            // console.log('Converted Weight',itemCovertedWeight)
             if (itemCovertedWeight < ingredient.weight) this.itemssToDelete.add(matchingItem)
 
             if (itemCovertedWeight > ingredient.weight) {
@@ -296,9 +303,9 @@ export class RecipeViewComponent implements OnInit {
         return this.pantryItemsReadyForUpdate;
       })
     })
-    // console.log('Items to delete: ', this.itemssToDelete)
-    // console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
-    // console.log('Items to update: ', this.pantryItemsReadyForUpdate)
+    console.log('Items to delete: ', this.itemssToDelete)
+    console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
+    console.log('Items to update: ', this.pantryItemsReadyForUpdate)
   }
 
 }
