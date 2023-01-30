@@ -39,6 +39,7 @@ export class RecipeComponent implements OnDestroy{
     public onSelectRecipe(id: number) {
       this.recipeService.getRecipeById(id);
       this.ui.changePage(this.pageName.RECIPE_VIEW)
+      location.reload();
     }
     
     ngOnDestroy(): void {
