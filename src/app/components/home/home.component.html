@@ -42,7 +42,9 @@
         <!-- <h4>Family Recipes</h4> -->
         <button type="button" id="logout-btn" mat-stroked-button color="accent" (click)="onViewRecipes()">View Family Recipes</button>
     </div>
+    <h2 id="o-recipes">Other Recipes</h2>
     <div class="hero-recipes">
+        
         <div class="hero-recipe" *ngFor="let recipe of heroRecipes">
             <div class="hero-recipe-image">
                 <img src="{{recipe.image}}" alt="recipe image" height="350" (click)="onSelectRecipe(recipe.id!)">

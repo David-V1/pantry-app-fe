@@ -26,16 +26,16 @@
 <div class="pantry-container">
     <button mat-stroked-button color="warn" (click)="onAllPantryItems()">All Pantry Items</button>
     <div class="items-wrapper">
-
-        <ng-container *ngFor="let item of items">
-            <div class="item-card" *ngIf="showAllItems">
-                <div class="item-img" (click)="onSelectItem(item)" >
-                    <img src="{{item.image}}" alt="item image" height="150" >
-                    <h4>{{item.name}}</h4>
+        <div class="pantry-items-container">
+            <ng-container *ngFor="let item of items">
+                <div class="item-card" *ngIf="showAllItems">
+                    <div class="item-img" (click)="onSelectItem(item)" >
+                        <img src="{{item.image}}" alt="item image" height="150" >
+                        <h4>{{item.name}}</h4>
+                    </div>
                 </div>
-            </div>
-        </ng-container>
-
+            </ng-container>
+        </div>
     </div>
 </div> 
     
@@ -56,8 +56,9 @@
     </div>
 </div>
 <div class="pantry-category-container" >
-    <div class="pantry-items-container" *ngIf="itemService.items$ | async as pantryItems">
-        <ng-container *ngFor="let item of pantryItems">
+    <!-- <div class="pantry-items-container" *ngIf="itemService.items$ | async as pantryItems"> -->
+    <div class="pantry-items-container">
+        <ng-container *ngFor="let item of items">
             <div class="item-card" *ngIf="item.category === dropdownSelection">
                 <div class="item-img" (click)="onSelectItem(item)">
                     <img src="{{item.image}}" alt="item image" height="150" >
@@ -65,6 +66,7 @@
                 </div>
             </div>
         </ng-container>
+    <!-- </div> -->
     </div>
 </div>
  

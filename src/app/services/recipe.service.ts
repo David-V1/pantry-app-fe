@@ -17,7 +17,8 @@ export class RecipeService {
   public recipesDTO: RecipeDTO[] = [];
   public ingredients: any[] = [];
   public recipeVolumeOptions: string[] = ['liters', 'milliliters', 'gallons', 'fluid ounces', 'grams' ,'kilograms', 'pounds', 'ounces'];
-  selectedRecipe = Number(localStorage.getItem('selectedRecipeId')) || null;
+  public selectedRecipe = Number(localStorage.getItem('selectedRecipeId')) || null;
+  public currentFamilyName = localStorage.getItem('familyName')?.toUpperCase();
 
   private recipeSubject: Subject<Recipe> = new Subject();
   public recipe$: Observable<Recipe> = this.recipeSubject.asObservable();
@@ -122,6 +123,7 @@ export class RecipeService {
   }
 
   public getRecipeById(id: number): void {
+    this.getRecipeByIdDTO(id); // TODO: for recipe-view button disable.
     //persist selected recipe
     localStorage.setItem('selectedRecipeId', JSON.stringify(id));
     this.http.get<Recipe>(`${this.url}/${id}`)
@@ -129,6 +131,7 @@ export class RecipeService {
     .subscribe({
       next: recipe => {
         this.recipeSubject.next(recipe);
+
       },
       error: err => {
         console.log(err);
@@ -136,6 +139,22 @@ export class RecipeService {
       }
     })
   }
+
+  public getRecipeByIdDTO(id: number): void {
+    this.http.get<RecipeDTO>(`${this.url}/${id}`)
+    .pipe(take(1))
+    .subscribe({
+      next: recipe => {
+        // console.log('GETRECIPEBYID SELECTION =>',recipe);
+        this.recipeSubjectDTO.next(recipe);
+      },
+      error: err => {
+        console.log(err);
+        this.ui.onError('Error getting recipe');
+      }
+    })
+  }
+
 
   public getAllIngredients(): void {
     this.http.get<IngredientDTO[]>(`${this.ingredientsURL}`)
@@ -221,7 +240,7 @@ export class RecipeService {
   }
 
 
-  // Liquid Volume Conversion
+  //Metric Unit Conversions
   public convert(value: number, fromUnit: string, toUnit: string): number {
     let result: number;
     //VOLUME
