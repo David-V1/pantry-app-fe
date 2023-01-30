@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { RecipeService } from 'src/app/services/recipe.service';
@@ -7,14 +7,14 @@ import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/models/Item';
 import { Ingredient } from 'src/app/models/Ingredient';
 import { IngredientDTO } from 'src/app/models/modelsDTO/IngredientDTO';
-import { combineLatest, distinct, filter, map, Observable, of, retry, take, tap } from 'rxjs';
+import { combineLatest, distinct, filter, map, Observable, of, retry, Subscription, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-view',
   templateUrl: './recipe-view.component.html',
   styleUrls: ['./recipe-view.component.css']
 })
-export class RecipeViewComponent implements OnInit {
+export class RecipeViewComponent implements OnInit, OnDestroy {
   public pageName = PageName;
   public currentRecipeId = Number(localStorage.getItem('selectedRecipeId'));
   public itemsToDelete: Item[] = [];
@@ -64,9 +64,12 @@ export class RecipeViewComponent implements OnInit {
       this.currentSelectedIngredients = ingredients;
     })
   }
+  ngOnDestroy(): void {
+    this.matchingPantryItems$.unsubscribe();
+  }
   ngOnInit(): void {
     setTimeout(() => {
-      this.partitionPantryItemForHttpOutcome(),
+    this.partitionPantryItemForHttpOutcome(), // moved to onCookRecipe();
       this.isFamilyName();
     }, 500);
 
@@ -75,7 +78,6 @@ export class RecipeViewComponent implements OnInit {
     .subscribe(recipe => {
       this.recipeFamily = recipe.account.familyName.toUpperCase()
     })
-    
   }
 
   public isFamilyName(): boolean {
@@ -84,13 +86,14 @@ export class RecipeViewComponent implements OnInit {
  
     // Depending on the recipe, get the ingredients that match the recipe id
     public selectedRecipeIngredients$ = combineLatest([this.recipeService.ingredients$, this.recipeService.recipe$])
-    .pipe(map(([ingredients, recipes]) => 
+    .pipe(
+      map(([ingredients, recipes]) => 
       ingredients.filter((ingredient) => ingredient.recipes.id === recipes.id)
     ),retry(1)) // retry() when updating Recipe.
 
 
   // NEW ITERATION TEST from the ABOVE CODE
-  matchingPantryItems$ = combineLatest([this.itemService.items$, this.selectedRecipeIngredients$])
+  matchingPantryItems$ = combineLatest([this.itemService.itemsDTO$, this.selectedRecipeIngredients$])
   .pipe(
     map(([items, ingredients]) => {
       let ingredientNames = ingredients.map(y => {
@@ -98,17 +101,23 @@ export class RecipeViewComponent implements OnInit {
         return y.name.toLocaleLowerCase()
       });
       let matchingItems = items.filter(item => {
-        if (item.name.slice(-1) === 's') {
+        //parsing only logged in account items
+        // if (item.account.id !== this.ui.currentUserId) return false;
+        if (item.name.slice(-1) === 's' && item.account.id === this.ui.currentUserId) {
           let itemName = item.name.slice(0, -1).toLocaleLowerCase()
           return ingredientNames.includes(itemName)
         }
-        return ingredientNames.includes(item.name.toLocaleLowerCase())
+        //also need to check this path to only return logged in accout user.
+        if (item.account.id === this.ui.currentUserId){
+          return ingredientNames.includes(item.name.toLocaleLowerCase())
+        }
+        // return ingredientNames.includes(item.name.toLocaleLowerCase())
+        return;
       });
       return matchingItems;
     })
     ).subscribe(matchingPantry => {
       this.currentPantryMatchingItems = matchingPantry;
-
     })
  
   public bindPantryItemsAndRecipeIngredients(){
@@ -170,7 +179,7 @@ export class RecipeViewComponent implements OnInit {
   }
 
   public onCookRecipe(): void {
-    //this.partitionPantryItemForHttpOutcome(); Moved to onInit
+    //this.partitionPantryItemForHttpOutcome(); //Moved to onInit
     if (this.itemssToDelete.size) {
       this.itemService.deletePantryItemsOnCook(this.itemssToDelete);
       
@@ -311,8 +320,8 @@ export class RecipeViewComponent implements OnInit {
       })
     })
     console.log('Items to delete: ', this.itemssToDelete)
-    console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
+    // console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
     console.log('Items to update: ', this.pantryItemsReadyForUpdate)
   }
-
+ 
 }

@@ -22,7 +22,6 @@ export class HomeComponent implements OnDestroy {
     .pipe(
       map(recipes => recipes.filter(recipe => recipe.account.familyName !== recipeService.currentFamilyName)),
       distinct(),
-      tap(familyNames => console.log(familyNames)),
       map(recipes => recipes.slice(0, 3)) // Take the first 3
       ) 
     .subscribe({
