@@ -49,6 +49,10 @@ export class RecipeViewComponent implements OnInit {
   public ingredientBeenUpdated = false; // state to keep track of duplicates for 'Cook Recipe!' button
   public ingredientBeenDeleted = false; // state to keep track of duplicates for 'Cook Recipe!' button
 
+  //disabling Recipe buttons logic
+  public recipeFamily: string = '';
+  public currentFamilyName = this.recipeService.currentFamilyName;
+
   
   
   constructor(public ui: UiService, public recipeService: RecipeService, public itemService: ItemService) { 
@@ -62,8 +66,20 @@ export class RecipeViewComponent implements OnInit {
   }
   ngOnInit(): void {
     setTimeout(() => {
-      this.partitionPantryItemForHttpOutcome()
+      this.partitionPantryItemForHttpOutcome(),
+      this.isFamilyName();
     }, 500);
+
+    this.recipeService.recipeDTO$
+    .pipe(take(1),retry(1))
+    .subscribe(recipe => {
+      this.recipeFamily = recipe.account.familyName.toUpperCase()
+    })
+    
+  }
+
+  public isFamilyName(): boolean {
+    return this.currentFamilyName !== this.recipeFamily;
   }
  
     // Depending on the recipe, get the ingredients that match the recipe id
@@ -92,7 +108,6 @@ export class RecipeViewComponent implements OnInit {
     })
     ).subscribe(matchingPantry => {
       this.currentPantryMatchingItems = matchingPantry;
-      // console.log('MATCHING PANTRY ITEMS',matchingPantry)
 
     })
  
@@ -123,7 +138,6 @@ export class RecipeViewComponent implements OnInit {
   }
   
   public showEditIngredient(ingredientid:number): void {
-    console.log('INGREDIENT ID', ingredientid)
     this.currentIngredientId = ingredientid;
     this.edit = !this.edit;
   }
@@ -271,20 +285,13 @@ export class RecipeViewComponent implements OnInit {
             }
             this.pantryItemsReadyForUpdate.push(updatedItem)
           };
-          console.log('matchingItem: ', matchingItem, 'ingredient: ', ingredient)
-          console.log('matchingItem.quantity: ', matchingItem.quantity, 'ingredient.quantity: ', ingredient.quantity)
           if (matchingItem.quantity === ingredient.quantity && matchingItem.quantity !== 0 && ingredient.quantity !== 0) this.itemssToDelete.add(matchingItem)
 
           //Checking for items that have weight
           if (matchingItem.weight && ingredient.weight){
-            // console.log('matchingItem: ', matchingItem)
-            // console.log('OG Weight',matchingItem.weight, 'OG Metric',matchingItem.metric)
-            // console.log('Ingredient Weight',ingredient.weight,'Ingredient Metric',ingredient.metric)
-            // console.log('')
             
             let itemCovertedWeight = this.recipeService.convert(matchingItem.weight, matchingItem.metric, ingredient.metric)
-            // console.log('Pantry item weight:',matchingItem.weight,' From this Metric:',matchingItem.metric, 'To this Metric:',ingredient.metric)
-            // console.log('Converted Weight',itemCovertedWeight)
+
             if (itemCovertedWeight < ingredient.weight) this.itemssToDelete.add(matchingItem)
 
             if (itemCovertedWeight > ingredient.weight) {
@@ -303,9 +310,9 @@ export class RecipeViewComponent implements OnInit {
         return this.pantryItemsReadyForUpdate;
       })
     })
-    console.log('Items to delete: ', this.itemssToDelete)
-    console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
-    console.log('Items to update: ', this.pantryItemsReadyForUpdate)
+    // console.log('Items to delete: ', this.itemssToDelete)
+    // console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
+    // console.log('Items to update: ', this.pantryItemsReadyForUpdate)
   }
 
 }

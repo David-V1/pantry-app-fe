@@ -3,8 +3,9 @@ import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Recipe } from 'src/app/models/Recipe';
-import { map, pipe, Subscription, take, tap } from 'rxjs';
+import { distinct, distinctUntilChanged, filter, map, pipe, Subscription, take, tap } from 'rxjs';
 import { AccountService } from 'src/app/services/account.service';
+import { RecipeDTO } from 'src/app/models/modelsDTO/RecipeDTO';
 
 @Component({
   selector: 'app-home',
@@ -13,27 +14,30 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class HomeComponent implements OnDestroy {
   public pageName = PageName;
-  public heroRecipes: Recipe[] =[]
+  public heroRecipes: RecipeDTO[] =[]
   recipeSubscription: Subscription
 
   constructor(public ui: UiService, public recipeService: RecipeService, public accountService: AccountService) {
-    this.recipeSubscription = this.recipeService.recipes$
-    .pipe(map(recipes =>recipes.filter(obj => obj.id! <= 3))) // 3 hero Images TODO: need to be random or Favs
+    this.recipeSubscription = this.recipeService.recipesDTO$
+    .pipe(
+      map(recipes => recipes.filter(recipe => recipe.account.familyName !== recipeService.currentFamilyName)),
+      distinct(),
+      tap(familyNames => console.log(familyNames)),
+      map(recipes => recipes.slice(0, 3)) // Take the first 3
+      ) 
     .subscribe({
       next: recipes => this.heroRecipes = recipes,
       error: err => console.log(err)
     })
-    this.recipeService.getRecipes();
+    this.recipeService.getRecipesDTO();
    }
    
 
   public onViewRecipes(): void {
-    // location.reload();
     this.ui.changePage(PageName.RECIPE);
   }
 
   public onSelectRecipe(id: number) {
-    // this.recipeService.selectedRecipe = id;
     this.recipeService.getRecipeById(id);
     this.ui.changePage(this.pageName.RECIPE_VIEW)
   }

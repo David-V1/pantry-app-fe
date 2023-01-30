@@ -25,12 +25,11 @@ export class PantryComponent implements OnDestroy {
 
     this.itemSubscription = this.itemService.itemsDTO$
     .pipe(
-      map(items => items.filter(item => item.account.id === this.ui.currentUserId)),
-      tap(i => console.log(i))
+      map(items => items.filter(item => item.account.id === this.ui.currentUserId))
     )
     .subscribe(itemsDTO =>{ 
       this.items = itemsDTO
-      console.log(this.items)
+      // console.log(this.items)
     });
     this.itemService.getAllItemsDTO();
   }

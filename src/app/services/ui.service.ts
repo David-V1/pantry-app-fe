@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, PACKAGE_ROOT_URL } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable} from '@angular/core';
 import { PageName } from '../enums/PageEnum';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Account } from '../models/Account';
@@ -25,10 +24,11 @@ export class UiService {
     localStorage.setItem('password', currentAccount.password);
     localStorage.setItem('userAccountId', currentAccount.id!.toString());
     localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('familyName', currentAccount.familyName);
     this.isLoggedIn = true;
   }
   public onUpdateAccount(updatedAccount: Account): void {
-    console.log('UPDATE ACCOUNT',updatedAccount)
+    // console.log('UPDATE ACCOUNT',updatedAccount)
     localStorage.removeItem('email');
     localStorage.removeItem('password');
 
@@ -42,6 +42,8 @@ export class UiService {
     localStorage.removeItem('email');
     localStorage.removeItem('password');
     localStorage.removeItem('userAccountId');
+    localStorage.removeItem('familyName');
+    localStorage.removeItem('selectedRecipeId');
   }
 
   public changePage(page: PageName): void {

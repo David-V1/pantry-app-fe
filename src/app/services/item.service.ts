@@ -58,7 +58,6 @@ export class ItemService {
     .pipe(take(1))
     .subscribe({
       next: () => {
-        console.log('Inside of POST item',item)
         this.itemSubject.next(item);
         this.getAllItems();
         this.ui.openSnackBar(`${item.name} added to pantry`);

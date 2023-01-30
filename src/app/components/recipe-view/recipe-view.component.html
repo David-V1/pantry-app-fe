@@ -1,15 +1,18 @@
 <div class="recipeView-header">
     <!-- removes Id state - localStorage -->
     <button mat-stroked-button color="warn" (click)="goBackClick()"> <mat-icon >arrow_back</mat-icon></button>
+    <button mat-fab color="warn" class="home-btn" aria-label="Example icon button with a home icon" (click)="ui.changePage(pageName.HOME)">
+        <mat-icon >home</mat-icon>
+    </button>
 </div>
 
 <div class="recipe-container" *ngIf="recipeService.recipe$ | async as recipe">
-    <div class="recipe-view-heading">
-        <button mat-stroked-button color="warn" (click)="deleteRecipe(recipe)">
+    <div class="recipe-view-heading" >
+        <button mat-stroked-button color="warn" (click)="deleteRecipe(recipe)" [disabled]="isFamilyName()">
             <mat-icon >delete</mat-icon>
         </button>
-        <button mat-stroked-button color="warn" (click)="toggleEditRecipeIcons()">Edit Recipe</button>
-        <button mat-stroked-button color="warn" (click)="onCookRecipe()">Cook Recipe!</button>
+        <button mat-stroked-button color="warn" (click)="toggleEditRecipeIcons()" [disabled]="isFamilyName()">Edit Recipe</button>
+        <button mat-stroked-button color="warn" (click)="onCookRecipe()" [disabled]="isFamilyName()">Cook Recipe!</button>
     </div>
     
     <!-- Recipe Name-->
