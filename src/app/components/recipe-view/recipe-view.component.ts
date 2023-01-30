@@ -310,9 +310,9 @@ export class RecipeViewComponent implements OnInit {
         return this.pantryItemsReadyForUpdate;
       })
     })
-    // console.log('Items to delete: ', this.itemssToDelete)
-    // console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
-    // console.log('Items to update: ', this.pantryItemsReadyForUpdate)
+    console.log('Items to delete: ', this.itemssToDelete)
+    console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
+    console.log('Items to update: ', this.pantryItemsReadyForUpdate)
   }
 
 }
