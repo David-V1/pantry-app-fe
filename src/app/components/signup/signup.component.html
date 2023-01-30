@@ -1,8 +1,8 @@
 <div class="signup-container">
     <div class="signup-wrapper">
-
+        <!-- old method -->
         <!-- Family Dropdown -->
-        <div class="dropdown-menu" *ngIf="!seeAddFamily">
+        <!-- <div class="dropdown-menu" *ngIf="!seeAddFamily">
             <label for="family-names"> Select Family</label>
 
             <select [(ngModel)]="newAccount.familyName"
@@ -13,10 +13,11 @@
             <p>Don't see your family name? 
             <button id="new-family-button" (click)="toggleAddFamily()">Add New Family</button>
             </p>
-        </div>
+        </div> -->
 
+        <!-- old method -->
         <!-- Add New Family name -->
-        <div class="add-family-container" *ngIf="seeAddFamily">
+        <!-- <div class="add-family-container" *ngIf="seeAddFamily">
             <p>See dropdown-menu
             <button id="new-family-button" (click)="toggleAddFamily()">dropdown-menu</button>
             </p>
@@ -24,12 +25,15 @@
             <small>Add New Family</small>
             <input [(ngModel)]="newAccount.familyName" type="text" name="family-name" id="family-signup" placeholder="Family name" >
             
-        </div>
+        </div> -->
         
 
-        <!-- basic inputs -->
+        <!-- inputs -->
+        <small>Add New Family</small>
+        <input [(ngModel)]="newAccount.familyName" type="text" name="family-name" id="family-signup" placeholder="Family name" >
+
         <small>Email</small>
-        <input type="text" name="email" id="email-signup" placeholder="email" [(ngModel)]="newAccount.email">
+        <input type="email" name="email" id="email-signup" placeholder="email" [(ngModel)]="newAccount.email">
 
         <small>password</small>
         <input [(ngModel)]="newAccount.password" type="password" name="password" id="password-signup" placeholder="password" >
