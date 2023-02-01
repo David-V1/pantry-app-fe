@@ -1,3 +1,125 @@
+.navigation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5%;
+}
+.navigation{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 100px;
+    background: rgb(255, 255, 255);
+    border-radius: 15px;
+}
+
+.navigation ul {
+    display: flex;
+    width: 350px;
+}
+
+.navigation ul li {
+    position: relative;
+    list-style: none;
+    width: 80px;
+    height: 80px;
+    margin: 0 10px;
+    z-index: 2;
+}
+
+.navigation ul li .contain {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation ul li .icon {
+    position: relative;
+    display: block;
+    line-height: 80px;
+    font-size: 3.5rem;
+    text-align: center;
+    transition: 0.4s;
+    color: #414140;
+}
+
+.m-icon {
+    transform: scale(1.7);
+}
+
+.m-icon:hover {
+    cursor: pointer;
+}
+
+.navigation ul li.active .icon {
+    transform: translateY(-55px);
+}
+
+.navigation ul li .text {
+    position: absolute;
+    color: #414140;
+    font-weight: 600;
+    transition: 0.5s;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.navigation ul li.active .contain .text{
+    opacity: 1;
+    transform: translateY(20px);
+}
+
+.indication {
+    position: absolute;
+    top: -45%;
+    width: 85px;
+    height: 85px;
+    background: #f2f225;
+    border-radius: 50%;
+    border: 4px solid #414140;
+    transition: 0.5s;
+}
+
+.indication::before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -27px;
+    width: 25px;
+    height: 29px;
+    background: transparent;
+    border-top-right-radius: 20px;
+    box-shadow: 0px -12px 0 0 #414140;
+}
+.indication::after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -27px;
+    width: 25px;
+    height: 29px;
+    background: transparent;
+    border-top-left-radius: 20px;
+    box-shadow: 0px -12px 0 0 #414140;
+}
+
+.navigation ul li:nth-child(1).active ~ .indication{
+    transform: translateX(calc(70px * 0));
+}
+.navigation ul li:nth-child(2).active ~ .indication{
+    transform: translateX(calc(70px * 1.2));
+}
+.navigation ul li:nth-child(3).active ~ .indication{
+    transform: translateX(calc(70px * 2.5));
+}
+.navigation ul li:nth-child(4).active ~ .indication{
+    transform: translateX(calc(70px * 3.7));
+}
+/* OLD HEADER */
+
 .home-header-container {
     display: flex;
     justify-content: space-between;

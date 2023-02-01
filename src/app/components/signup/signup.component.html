@@ -1,5 +1,5 @@
-<div class="signup-container">
-    <div class="signup-wrapper">
+<div class="input-container">
+    <div class="input-wrapper">
         <!-- old method -->
         <!-- Family Dropdown -->
         <!-- <div class="dropdown-menu" *ngIf="!seeAddFamily">
@@ -29,20 +29,32 @@
         
 
         <!-- inputs -->
-        <small>Add New Family</small>
+        <div class="input-bx">
+            <span>Add New Family</span>
         <input [(ngModel)]="newAccount.familyName" type="text" name="family-name" id="family-signup" placeholder="Family name" >
-
-        <small>Email</small>
-        <input type="email" name="email" id="email-signup" placeholder="email" [(ngModel)]="newAccount.email">
-
-        <small>password</small>
+        </div>
+        
+        <div class="input-bx">
+            <span>Email</span>
+            <input type="email" name="email" id="email-signup" placeholder="email" [(ngModel)]="newAccount.email">
+        </div>
+        
+        <div class="input-bx">
+            <span>password</span>
         <input [(ngModel)]="newAccount.password" type="password" name="password" id="password-signup" placeholder="password" >
+        </div>
 
-        <button type="submit" (click)="createAccount(); ui.changePage(pageName.LOGIN)"> Sign Up</button>
+        <div class="input-bx">
+            <p>Already have an account? <button id="signup-button"
+            (click)="ui.changePage(pageName.LOGIN)">Log In</button>
+            </p>
+        </div>
+        <!-- old method -->
+        <!-- <button type="submit" (click)="createAccount(); ui.changePage(pageName.LOGIN)"> Sign Up</button>
         <p>Already have an account?
             <button id="signup-button"
             (click)="ui.changePage(pageName.LOGIN)">Log In</button>
-        </p>
+        </p> -->
 
     </div>
 </div>

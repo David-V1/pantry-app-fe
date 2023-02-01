@@ -30,6 +30,7 @@ export class SignupComponent implements OnDestroy {
     this.accountSubscription = this.accountService.whenAccountsUpdate()
     .pipe(map(accounts => accounts.map(account => account.familyName))) //{[],[]}
     .subscribe(familyNames => {
+      console.log(familyNames)
       this.familyNames = familyNames;
     });
   }

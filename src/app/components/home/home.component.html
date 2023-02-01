@@ -1,3 +1,5 @@
+<!-- OLD NAV HEADER -->
+<!-- <button (click)="test()">TEST</button>
 <div class="home-header-container">
     <div class="btn-wrapper">
         <button type="button" id="logout-btn" mat-stroked-button color="primary" (click)="onLogout()">Log Out</button>
@@ -10,10 +12,53 @@
             </button>
         </div>
     </div>
+</div> -->
+
+<!-- NEW NAV HEADER -->
+<div class="navigation-container">
+    <div class="navigation">
+        <ul>
+            <li class="list" [ngClass]="{'active': activeIndex === 1}" (click)="makeActive(1)">
+                <div class="contain">
+                    <span class="icon">
+                        <mat-icon class="m-icon" (click)="onLogout()">exit_to_app</mat-icon>
+                    </span>
+                    <span class="text">Logout</span>
+                </div>
+                
+            </li>
+            <li class="list" [ngClass]="{'active': activeIndex === 2}" (click)="makeActive(2)">
+                <div class="contain">
+                    <span class="icon">
+                        <mat-icon class="m-icon" (click)="ui.changePage(pageName.PANTRY)">fastfood</mat-icon>
+                    </span>
+                    <span class="text">Pantry</span>
+                </div>
+            </li>
+            <li class="list" [ngClass]="{'active': activeIndex === 3}" (click)="makeActive(3)">
+                <div class="contain">
+                    <span class="icon">
+                        <mat-icon class="m-icon" (click)="onViewRecipes()">library_books</mat-icon>
+                    </span>
+                    <span class="text">Recipes</span>
+                </div>
+            </li>
+            <li class="list" [ngClass]="{'active': activeIndex === 4}" (click)="makeActive(4)">
+                <div class="contain">
+                    <span class="icon">
+                        <mat-icon class="m-icon" (click)="ui.changePage(pageName.PROFILE)">account_circle</mat-icon>
+                    </span>
+                    <span class="text">Profile</span>
+                </div>
+            </li>
+            <div class="indication"></div>
+        </ul>
+    </div>
 </div>
 
-<div class="pantry-container">
-    
+
+<!-- OLD PANTRY -->
+<!-- <div class="pantry-container">
     <div class="pantry-wrapper">
         <div class="icon-logos-container">
             <button class="btn-main"  mat-stroked-button color="accent">
@@ -34,14 +79,14 @@
         <h3 (click)="ui.changePage(pageName.PANTRY)">Pantry</h3>
         </div>
     </div>
-</div>
+</div> -->
 
 
 <div class="recipes-container">
-    <div class="recipe-wrapper">
-        <!-- <h4>Family Recipes</h4> -->
-        <button type="button" id="logout-btn" mat-stroked-button color="accent" (click)="onViewRecipes()">Recipes</button>
-    </div>
+    <!-- OLD RECIPES -->
+    <!-- <div class="recipe-wrapper">
+        <button type="button" id="logout-btn" mat-stroked-button color="accent" (click)="onViewRecipes()">Recipesss</button>
+    </div> -->
     <h2 id="o-recipes" *ngIf="heroRecipes.length">Other Recipes</h2>
     <div class="hero-recipes">
         

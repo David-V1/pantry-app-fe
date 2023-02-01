@@ -65,10 +65,15 @@ export class AccountService {
   }
 
   public getAccount(email: string, password: string): void {
+    if (email === '' || password === '') {
+      this.ui.onError('Please enter an email and password');
+      return;
+    }
     this.http.get<Account>(`${this.url}?email=${email}&password=${password}`)
     .pipe(take(1))
     .subscribe({
       next: account => {
+        console.log('ACCOUNT',account)
         this.ui.onValidLogin(account);
         this.currentAccount = account;
         this.accountSubject.next(account);
