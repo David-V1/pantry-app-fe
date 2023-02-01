@@ -105,6 +105,9 @@ export class RecipeService {
       }
     })
   }
+  public getRecipeForIngredients(recipeId: number): Observable<Recipe> {
+    return this.http.get<Recipe>(`${this.url}/${recipeId}`)
+  }
 
   public getRecipesDTO(): void{
     this.http.get<RecipeDTO[]>(`${this.url}`)

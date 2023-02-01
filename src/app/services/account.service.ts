@@ -11,14 +11,14 @@ import { PageName } from '../enums/PageEnum';
 export class AccountService {
   public currentAccount = {} as Account;
   public pageName = PageName;
-  
   private url: string = 'http://localhost:8080/account';
-  private accountsSubject: Subject<Account[]> = new Subject();
-  private accountSubject: BehaviorSubject<Account> = new BehaviorSubject(this.currentAccount);
-
-  public accounts$: Observable<Account[]> = this.accountsSubject.asObservable();
-  public account$: Observable<Account> = this.accountSubject.asObservable();
   public accounts: Account[] = [];
+
+  private accountsSubject: Subject<Account[]> = new Subject();
+  public accounts$: Observable<Account[]> = this.accountsSubject.asObservable();
+
+  private accountSubject: BehaviorSubject<Account> = new BehaviorSubject(this.currentAccount);
+  public account$: Observable<Account> = this.accountSubject.asObservable();
 
   constructor(private http: HttpClient, public ui: UiService) { 
     this.getAllAccounts();
@@ -74,11 +74,11 @@ export class AccountService {
         this.accountSubject.next(account);
         this.ui.changePage(this.pageName.HOME)
         
-        
-        
+
       },
       error: err => {
         console.error(err)
+        this.ui.onError('Error, Wrong Credentials')
         return;
       }
     });

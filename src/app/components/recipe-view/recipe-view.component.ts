@@ -221,7 +221,7 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
   }
 
   public onEditRecipeImage(recipe: Recipe): void {
-    if (this.recipeNewValue === '') return this.ui.onError('Image cannot be empty');
+    if (this.recipeNewValue === '') return this.ui.onError('Image URL cannot be empty');
     const newRecipeImage: Recipe = {
       id: recipe.id,
       name: recipe.name,
