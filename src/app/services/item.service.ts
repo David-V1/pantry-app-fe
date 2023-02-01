@@ -3,7 +3,7 @@ import { UiService } from './ui.service';
 import { PageName } from '../enums/PageEnum';
 import { Item } from '../models/Item';
 import { HttpClient } from '@angular/common/http';
-import {  Observable, Subject, take} from 'rxjs';
+import {  map, Observable, Subject, take, tap} from 'rxjs';
 import { ItemDTO } from '../models/modelsDTO/ItemDTO';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class ItemService {
   public pageName = PageName;
   public items: Item[] = [];
   public itemsDTO: ItemDTO[] = [];
+  public currentUserItems: ItemDTO[] = [];
   
   private itemSubject: Subject<Item> = new Subject<Item>();
   public item$: Observable<Item> = this.itemSubject.asObservable();
@@ -31,9 +32,8 @@ export class ItemService {
   private userId = Number(localStorage.getItem('userAccountId'))
 
 
-  constructor(public ui: UiService, public http: HttpClient) { 
+  constructor(public ui: UiService, public http: HttpClient) {
     this.getAllItems();
-    this.getAllItemsDTO();
   }
 
   // POST

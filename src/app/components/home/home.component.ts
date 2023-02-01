@@ -6,6 +6,8 @@ import { Recipe } from 'src/app/models/Recipe';
 import { distinct, distinctUntilChanged, filter, map, pipe, Subscription, take, tap } from 'rxjs';
 import { AccountService } from 'src/app/services/account.service';
 import { RecipeDTO } from 'src/app/models/modelsDTO/RecipeDTO';
+import { ItemService } from 'src/app/services/item.service';
+import { ItemDTO } from 'src/app/models/modelsDTO/ItemDTO';
 
 @Component({
   selector: 'app-home',
@@ -15,9 +17,12 @@ import { RecipeDTO } from 'src/app/models/modelsDTO/RecipeDTO';
 export class HomeComponent implements OnDestroy {
   public pageName = PageName;
   public heroRecipes: RecipeDTO[] =[]
-  recipeSubscription: Subscription
+  public currentUserItems: ItemDTO[] = [];
+  private recipeSubscription: Subscription;
+  private itemSubscription: Subscription;
+  public activeIndex: number = 1;
 
-  constructor(public ui: UiService, public recipeService: RecipeService, public accountService: AccountService) {
+  constructor(public ui: UiService, public recipeService: RecipeService, public accountService: AccountService, public itemService: ItemService) {
     this.recipeSubscription = this.recipeService.recipesDTO$
     .pipe(
       map(recipes => recipes.filter(recipe => recipe.account.familyName !== recipeService.currentFamilyName)),
@@ -27,8 +32,16 @@ export class HomeComponent implements OnDestroy {
     .subscribe({
       next: recipes => this.heroRecipes = recipes,
       error: err => console.log(err)
-    })
+    });
+    this.itemSubscription = this.itemService.itemsDTO$
+    .pipe(
+      map(items => items.filter(item => item.account.id === this.ui.currentUserId))
+    )
+    .subscribe(itemsDTO =>{ 
+      this.currentUserItems = itemsDTO
+    }); 
     this.recipeService.getRecipesDTO();
+    this.itemService.getAllItemsDTO()
    }
    
 
@@ -48,6 +61,16 @@ export class HomeComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.recipeSubscription.unsubscribe();
+    this.itemSubscription.unsubscribe();
+  }
+
+  public makeActive(index: number): void {
+    this.activeIndex = index;
+  }
+  
+
+  test() {
+    console.log('Icon Clicked');
   }
 
 }

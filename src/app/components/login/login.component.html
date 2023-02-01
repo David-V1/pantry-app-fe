@@ -1,12 +1,56 @@
 <div class="login-container">
-    <div class="login-wrapper">
-        <small>Email</small>
-        <input type="text" name="email" id="email-login" placeholder="email" [(ngModel)]="newLogin.email">
-        <small>password</small>
-        <input type="password" name="password" id="password-login" placeholder="password" [(ngModel)]="newLogin.password">
-        <button type="submit" (click)="onLogin()"> Log In</button>
-        <p>Don't have an account? <button id="signup-button"
-            (click)="ui.changePage(pageName.SIGNUP)">Sign Up</button></p>
-        
+    <div class="img-container">
+        <img src="../../../assets/IMG/andy-chilton-unsplash.jpg" alt="cooking image">
+    </div>
+    <div class="input-container">
+        <div class="input-wrapper">
+            <!-- LOGIN -->
+            <div class="login-box" *ngIf="showLogin">
+                <h2>Welcome Back!</h2>
+                <div class="input-bx">
+                    <span>Email</span>
+                    <input type="text" name="email" id="email-login" placeholder="@email.com" [(ngModel)]="newLogin.email">
+                </div>
+                <div class="input-bx">
+                    <span>password</span>
+                    <input type="password" name="password" id="password-login" placeholder="*****" [(ngModel)]="newLogin.password">
+                </div>
+                <div class="input-bx">
+                    <input type="submit" value="Log In" (click)="onLogin()">
+                </div>
+                <div class="input-bx">
+                    <p>Don't have an account? <button id="signup-button"
+                        (click)="onSingUp()">Sign Up</button>
+                    </p>
+                </div>
+            </div>
+            
+
+            <!-- SIGNUP -->
+            <div class="signup-box" *ngIf="!showLogin">
+                <h2>Create New Account</h2>
+                <div class="input-bx">
+                    <span>Last Name</span>
+                    <input [(ngModel)]="newAccount.familyName" type="text" name="family-name" id="family-signup" placeholder="Family name" >
+                </div>
+                <div class="input-bx">
+                    <span>Email</span>
+                    <input type="email" name="email" id="email-signup" placeholder="email" [(ngModel)]="newAccount.email">
+                </div>
+                <div class="input-bx">
+                    <span>password</span>
+                    <input [(ngModel)]="newAccount.password" type="password" name="password" id="password-signup" placeholder="password" >
+                </div>
+                <div class="input-bx">
+                    <input type="submit" value="Sign up" (click)="createAccount()">
+                </div>
+                <div class="input-bx">
+                    <p>Already have an account? <button id="signup-button"
+                        (click)="onSingUp()">Log In</button>
+                    </p>
+                </div>
+            </div>
+            
+        </div>
     </div>
 </div>
