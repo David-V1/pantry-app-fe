@@ -4,6 +4,8 @@ import { PageName } from 'src/app/enums/PageEnum';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Ingredient } from 'src/app/models/Ingredient';
 import { BehaviorSubject, of, Subject } from 'rxjs';
+import { Recipe } from 'src/app/models/Recipe';
+import { RecipeDTO } from 'src/app/models/modelsDTO/RecipeDTO';
 
 @Component({
   selector: 'app-ingredient-add',
@@ -15,6 +17,8 @@ export class IngredientAddComponent {
   slider = false;
   public metricUnits = this.recipeService.recipeVolumeOptions;
   public addedIngredients: Ingredient[] = []
+  public recipeId: number;
+  selectedRecipe: Recipe = {} as Recipe;
 
   
   public newIngredient: Ingredient = {
@@ -25,7 +29,15 @@ export class IngredientAddComponent {
     metric: ''
   }
 
-  constructor(public ui: UiService, public recipeService: RecipeService) { }
+  constructor(public ui: UiService, public recipeService: RecipeService) { 
+    this.recipeId = Number(localStorage.getItem('selectedRecipeId'));
+    this.recipeService.getRecipeForIngredients(this.recipeId)
+    .pipe().subscribe((recipe: Recipe) => {
+      this.selectedRecipe = recipe;
+    });
+    
+
+  }
 
   addIngredient() {
     this.addedIngredients.push(this.newIngredient);
@@ -35,8 +47,7 @@ export class IngredientAddComponent {
       return;
     };
 
-    // this.recipeService.addIngredientsToRecipe(this.recipeService.selectedRecipe!, this.newIngredient);
-    this.recipeService.addIngredientsToRecipe(Number(localStorage.getItem('selectedRecipeId')), this.newIngredient);
+    this.recipeService.addIngredientsToRecipe(this.recipeId, this.newIngredient);
     this.resetIngredient();
   }
 

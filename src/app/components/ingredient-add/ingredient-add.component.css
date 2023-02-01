@@ -31,3 +31,10 @@ h1 {
     justify-content: left;
     align-items: center;
 }
+
+.recipe {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10%;
+}

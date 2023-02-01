@@ -35,7 +35,7 @@ export class ItemEditComponent implements OnDestroy {
       metric: this.updatedItem.metric,
       quantity: this.updatedItem.quantity,
       calories: this.updatedItem.calories,
-      category: this.updatedItem.category
+      category: this.updatedItem.category,
     }
     this.matDialogRef.close(newData);
   }
