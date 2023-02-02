@@ -8,6 +8,7 @@ import { Item } from 'src/app/models/Item';
 import { Ingredient } from 'src/app/models/Ingredient';
 import { IngredientDTO } from 'src/app/models/modelsDTO/IngredientDTO';
 import { combineLatest, distinct, filter, map, Observable, of, retry, Subscription, take, tap } from 'rxjs';
+import { ItemDTO } from 'src/app/models/modelsDTO/ItemDTO';
 
 @Component({
   selector: 'app-recipe-view',
@@ -22,8 +23,8 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
   public itemssToDelete = new Set<Item>();
 
   // Updating Pantry Items
-  public currentSelectedIngredients: IngredientDTO[] = [];
-  public currentPantryMatchingItems: Item[] = [];
+  public currentSelectedIngredients: IngredientDTO[] = []; 
+  public currentPantryMatchingItems: ItemDTO[] = []; //Changed matchingPantryItems$ type to ItemDTO[] from Item[]
   public pantryItemsReadyForUpdate = new Array();
   
   // Recipe Update
@@ -59,14 +60,14 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
     this.recipeService.getRecipeById(Number(localStorage.getItem('selectedRecipeId')));
     this.recipeService.getAllIngredients();
     this.itemService.getAllItems();
-    this.bindPantryItemsAndRecipeIngredients();
+    // this.bindPantryItemsAndRecipeIngredients(); // previous iteration
     this.selectedRecipeIngredients$.subscribe(ingredients => {
       this.currentSelectedIngredients = ingredients;
     })
+    this.itemService.getAllItemsDTO();
+    this.recipeService.getRecipes();
   }
-  ngOnDestroy(): void {
-    this.matchingPantryItems$.unsubscribe();
-  }
+  
   ngOnInit(): void {
     setTimeout(() => {
     this.partitionPantryItemForHttpOutcome(), // moved to onCookRecipe();
@@ -119,32 +120,32 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
     ).subscribe(matchingPantry => {
       this.currentPantryMatchingItems = matchingPantry;
     })
- 
-  public bindPantryItemsAndRecipeIngredients(){
-    combineLatest([this.itemService.items$, this.selectedRecipeIngredients$]).pipe(
-      map(([items, ingredients]) => {
-        let ingredientNames = ingredients.map(y => {
-          if (y.name.slice(-1) === 's') return y.name.slice(0, -1).toLocaleLowerCase()
-          return y.name.toLocaleLowerCase()
-        });
-        let matchingItems = items.filter(item => {
-          if (item.name.slice(-1) === 's') {
-            let itemName = item.name.slice(0, -1).toLocaleLowerCase()
-            return ingredientNames.includes(itemName)
-          }
-          return ingredientNames.includes(item.name.toLocaleLowerCase())
-        });
-        return matchingItems;
-      })
-    ).subscribe({
-      next: (items) => {
-        // console.log('LINE 103',items)
-        this.itemsToDelete = items;
+    
+  //OLD METHOD
+  // public bindPantryItemsAndRecipeIngredients(){
+  //   combineLatest([this.itemService.items$, this.selectedRecipeIngredients$]).pipe(
+  //     map(([items, ingredients]) => {
+  //       let ingredientNames = ingredients.map(y => {
+  //         if (y.name.slice(-1) === 's') return y.name.slice(0, -1).toLocaleLowerCase()
+  //         return y.name.toLocaleLowerCase()
+  //       });
+  //       let matchingItems = items.filter(item => {
+  //         if (item.name.slice(-1) === 's') {
+  //           let itemName = item.name.slice(0, -1).toLocaleLowerCase()
+  //           return ingredientNames.includes(itemName)
+  //         }
+  //         return ingredientNames.includes(item.name.toLocaleLowerCase())
+  //       });
+  //       return matchingItems;
+  //     })
+  //   ).subscribe({
+  //     next: (items) => {
+  //       this.itemsToDelete = items;
 
-      },
-      error: (err) => console.log(err),
-    })
-  }
+  //     },
+  //     error: (err) => console.log(err),
+  //   })
+  // }
   
   public showEditIngredient(ingredientid:number): void {
     this.currentIngredientId = ingredientid;
@@ -320,8 +321,12 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
       })
     })
     console.log('Items to delete: ', this.itemssToDelete)
-    // console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
+    console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
     console.log('Items to update: ', this.pantryItemsReadyForUpdate)
+  }
+
+  ngOnDestroy(): void {
+    this.matchingPantryItems$.unsubscribe();
   }
  
 }
