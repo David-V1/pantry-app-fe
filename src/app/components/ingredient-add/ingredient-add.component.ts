@@ -46,7 +46,7 @@ export class IngredientAddComponent {
       this.ui.onError('Recipe not selected')
       return;
     };
-
+    console.log( this.recipeId,this.newIngredient)
     this.recipeService.addIngredientsToRecipe(this.recipeId, this.newIngredient);
     this.resetIngredient();
   }
