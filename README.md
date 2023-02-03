@@ -1,6 +1,6 @@
 # CapstonePantryAppFe
 General App abstraction of client Idea
-![pantry-app-idea](https://user-images.githubusercontent.com/90426008/213105515-c354607e-ea1a-4349-b86e-a7fa79e6a00b.svg)
+![pantry-app-idea](https://user-images.githubusercontent.com/90426008/216716699-903ec89e-04ba-4c9f-bbf7-8805fda50469.svg)
 
 ## User-Flow
 ![User-Flow](https://user-images.githubusercontent.com/90426008/213105753-5734cae9-9038-4d89-b8f6-ebc2bcd8c768.svg)
