@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ItemService } from 'src/app/services/item.service';
-import { Item } from 'src/app/models/Item';
 import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
-import { distinct, filter, map, Subscription, tap } from 'rxjs';
-import { ConstantPool } from '@angular/compiler';
+import { map, Subscription } from 'rxjs';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Account } from 'src/app/models/Account';
 import { ItemDTO } from 'src/app/models/modelsDTO/ItemDTO';
@@ -50,10 +48,7 @@ export class ItemAddComponent implements OnInit, OnDestroy {
       this.itemService.getAllItems();
 
    }
-
-   
-
-    
+  
     public onAddItemDTO(): void {
       if (this.newItem.name === '' ) return this.ui.onError('Please Enter a name for the item');
       if (this.newItem.weight <= 0 && this.newItem.metric === '' && this.newItem.quantity === 0) return this.ui.onError('Please enter a measurement for the item');

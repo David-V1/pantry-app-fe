@@ -29,7 +29,6 @@ export class LoginComponent {
   onLogin(): void {
     this.accountService.getAccount(this.newLogin.email, this.newLogin.password);
     this.resetInputFields();
-    location.reload();
   }
   // SIGNUP
   public createAccount() {

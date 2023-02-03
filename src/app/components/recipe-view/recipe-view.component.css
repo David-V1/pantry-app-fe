@@ -1,3 +1,8 @@
+.recipeView-header {
+    display: flex;
+    justify-content: space-between;
+}
+
 .recipe-container {
     display: flex;
     flex-direction: column;
@@ -49,19 +54,15 @@
 .ingredients-container{
     display: flex;
     flex-direction: column;
-    margin: auto;
-    align-items: center;
-    width: 100%;
+    width: 50%;
     height: 100%;
 }
 
 .image-container {
     display: flex;
-    flex-direction: column;
-    margin: auto;
+    justify-content: space-evenly;
     align-items: center;
     width: 100%;
-    height: 100%;
 }
 
 .name-edit-btns {
@@ -71,6 +72,14 @@
 
 .example-full-width {
     width: max-content;
+}
+.img-edit-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 80%;
 }
 
 #edit-recipe-n:hover {
@@ -105,4 +114,26 @@
     margin: auto;
     justify-content: center;
     
+}
+.instructions-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-bottom: 5%;
+}
+
+.editText {
+    color: rgb(240, 253, 53);
+    border-bottom: solid 1px rgb(240, 253, 53);
+}
+
+.del-icon {
+    color: rgb(248, 58, 44);
+    cursor: pointer;
+}
+.del-icon:hover {
+    transform: scale(1.1);
+    transition: all 0.3s ease-in-out;
+    color: rgb(255, 112, 101);
 }

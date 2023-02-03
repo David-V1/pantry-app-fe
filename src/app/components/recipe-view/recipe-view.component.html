@@ -1,6 +1,6 @@
 <div class="recipeView-header">
     <!-- removes Id state - localStorage -->
-    <button mat-stroked-button color="warn" (click)="goBackClick()"> <mat-icon >arrow_back</mat-icon></button>
+    <button mat-stroked-button color="warn" (click)="goBackClick()"> View Recipes</button>
     <button mat-fab color="warn" class="home-btn" aria-label="Example icon button with a home icon" (click)="ui.changePage(pageName.HOME)">
         <mat-icon >home</mat-icon>
     </button>
@@ -17,7 +17,8 @@
     
     <!-- Recipe Name-->
     <div class="name-edit-container">
-        <mat-icon id="edit-recipe-n" (click)="toggleRecipeName()" *ngIf="showEditIcon">edit</mat-icon><span *ngIf="showEditIcon">Edit Name</span>
+        <mat-icon id="edit-recipe-n" (click)="toggleRecipeName()" *ngIf="showEditIcon">edit</mat-icon>
+        <span *ngIf="showEditIcon" class="editText">Edit Name</span>
         <h1
         id="recipe-name"
         *ngIf="!showEditRecipeName"
@@ -37,35 +38,40 @@
 
     <!-- Recipe Image -->
     <div class="image-container">
-        <mat-icon id="edit-recipe-img" (click)="toggleRecipeImage()" *ngIf="showEditIcon">edit</mat-icon> <span *ngIf="showEditIcon">Edit Image</span>
+        
         <img src="{{recipe.image}}" height="350" alt="Image of {{recipe.name}}" >
-
+        <div class="ingredients-container">
+            <h3>Ingredients</h3>
+            <ng-container *ngIf="recipeService.ingredients$ | async as recipeIngredients">
+                <ng-container *ngFor="let ingredient of recipeIngredients">
+                    <ng-container *ngIf="currentRecipeId === ingredient.recipes.id">
+                        <ng-container *ngIf="!edit" >
+                            <mat-icon  id="edit-ingredient" (click)="showEditIngredient(ingredient.id!)" *ngIf="showEditIcon">edit</mat-icon>
+                            <mat-list>
+                                <mat-list-item><mat-icon (click)="onDeleteIngredientById(ingredient.id!)" *ngIf="showEditIcon" class="del-icon">remove_circle</mat-icon>
+                                    {{ingredient.quantity ? ingredient.quantity : '' }} {{ingredient.weight ? ingredient.weight : ''}} {{ ingredient.weight ? ingredient.metric + ' of' : '' }}   {{ingredient.name}}
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+        
+    </div>
+    <!-- EDIT IMG -->
+    <div class="img-edit-wrapper">
+        <mat-icon id="edit-recipe-img" (click)="toggleRecipeImage()" *ngIf="showEditIcon">edit</mat-icon> 
+        <span *ngIf="showEditIcon" class="editText">Edit Image</span>
         <mat-form-field class="example-full-width" *ngIf="showEditRecipeImage">
             <mat-label>Enter new image URL</mat-label>
             <input type="url" name="recipe" id="r-image" matInput placeholder="Ex. https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" value="" [(ngModel)]="recipeNewValue">
         </mat-form-field>
-    </div>
-    <div class="name-edit-btns">
-        <button mat-stroked-button color="accent" *ngIf="showEditRecipeImage" (click)="onEditRecipeImage(recipe)">Save</button>
-        <button mat-stroked-button color="warn" *ngIf="showEditRecipeImage" (click)="toggleRecipeImage()">Cancel</button> 
-    </div>
-
-    <!-- Recipe Ingredients-->
-    <div class="ingredients-container">
-        <ng-container *ngIf="recipeService.ingredients$ | async as recipeIngredients">
-            <ng-container *ngFor="let ingredient of recipeIngredients">
-                <ng-container *ngIf="currentRecipeId === ingredient.recipes.id">
-                    <ng-container *ngIf="!edit" >
-                        <mat-icon  id="edit-ingredient" (click)="showEditIngredient(ingredient.id!)" *ngIf="showEditIcon">edit</mat-icon>
-                        <ul>
-                            <li><mat-icon (click)="onDeleteIngredientById(ingredient.id!)" *ngIf="showEditIcon">remove_circle</mat-icon>
-                                {{ingredient.quantity ? ingredient.quantity : '' }} {{ingredient.weight ? ingredient.weight : ''}} {{ ingredient.weight ? ingredient.metric + ' of' : '' }}   {{ingredient.name}}
-                            </li>
-                        </ul>
-                    </ng-container>
-                </ng-container>
-            </ng-container>
-        </ng-container>
+        <div class="name-edit-btns">
+            <button mat-stroked-button color="accent" *ngIf="showEditRecipeImage" (click)="onEditRecipeImage(recipe)">Save</button>
+            <button mat-stroked-button color="warn" *ngIf="showEditRecipeImage" (click)="toggleRecipeImage()">Cancel</button> 
+        </div>
     </div>
         <!-- UPDATE ingredient inputs -->
     <div class="update-inputs">
@@ -114,11 +120,13 @@
     <!-- Display Instructions -->
     <div class="instructions-container">
         <div class="intruction-title">
-            <mat-icon id="edit-recipe-ins" (click)="toggleRecipeInstructions()" *ngIf="showEditIcon">edit</mat-icon><small *ngIf="showEditIcon">Edit Instructions</small>
-            <h2>Instructions</h2>
+            <mat-icon id="edit-recipe-ins" (click)="toggleRecipeInstructions()" *ngIf="showEditIcon">edit</mat-icon>
+            <span *ngIf="showEditIcon" class="editText">Edit Instructions</span>
+            
         </div>
         
         <div id="r-instructions-steps" *ngIf="!showEditRecipeInstructions">
+            <h2>Instructions</h2>
             <p *ngFor="let paragraph of instructionParagraphs(recipe.instructions)"> {{paragraph}}</p> 
         </div>
     </div>

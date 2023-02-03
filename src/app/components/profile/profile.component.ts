@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { Account } from 'src/app/models/Account';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit,OnDestroy {
+export class ProfileComponent implements OnDestroy {
   public pageName = PageName;
   public value: string = '';
   updatedAccount = {} as Account
@@ -22,9 +22,6 @@ export class ProfileComponent implements OnInit,OnDestroy {
     this.accountSubscription = accountService.account$.subscribe(account => this.account = account);
     console.log(this.account)
     this.accountService.getAllAccounts();
-  }
-  ngOnInit(): void {
-    
   }
 
   public onLogout(): void {
@@ -51,8 +48,7 @@ export class ProfileComponent implements OnInit,OnDestroy {
 
   public deleteAccount(): void {
     this.accountService.deleteAccount(this.currentId);
-    // console.log(this.currentId);
-    this.ui.changePage(this.pageName.START_UP)
+    this.ui.changePage(this.pageName.LOGIN)
   }
 
   resetFields() {

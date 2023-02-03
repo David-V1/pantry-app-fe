@@ -8,10 +8,9 @@ import { Account } from '../models/Account';
   providedIn: 'root'
 })
 export class UiService {
-  public pageName: Number = PageName.START_UP;
+  public pageName: Number = PageName.LOGIN;
   public isLoggedIn = false;
   public currentUserId: number = Number(localStorage.getItem('userAccountId'));
-  // general FDA food groups
   public foodGroups = ['Dairy & Alternatives', 'Fruits', 'Grains', 'Meat, Fish, Egg & Alternatives', 'Vegetables', 'Fat/Oil, Salt & Sugar', 'Other'];
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar) {
@@ -26,12 +25,11 @@ export class UiService {
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('familyName', currentAccount.familyName);
     this.isLoggedIn = true;
+    location.reload();
   }
   public onUpdateAccount(updatedAccount: Account): void {
-    // console.log('UPDATE ACCOUNT',updatedAccount)
     localStorage.removeItem('email');
     localStorage.removeItem('password');
-
     localStorage.setItem('email', updatedAccount.email);
     localStorage.setItem('password', updatedAccount.password);
   }

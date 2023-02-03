@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { UiService } from './ui.service';
 import { Recipe } from '../models/Recipe';
 import { HttpClient } from '@angular/common/http';
 import { PageName } from '../enums/PageEnum';
-import { map, Observable, Subject, take, tap } from 'rxjs';
+import { map, Observable, Subject, Subscription, take, tap } from 'rxjs';
 import { Ingredient } from '../models/Ingredient';
 import { IngredientDTO } from '../models/modelsDTO/IngredientDTO';
 import { RecipeDTO } from '../models/modelsDTO/RecipeDTO';
@@ -11,7 +11,7 @@ import { RecipeDTO } from '../models/modelsDTO/RecipeDTO';
 @Injectable({
   providedIn: 'root'
 })
-export class RecipeService {
+export class RecipeService implements OnDestroy{
   public pageName = PageName;
   public recipes: Recipe[] = [];
   public recipesDTO: RecipeDTO[] = [];
@@ -19,6 +19,8 @@ export class RecipeService {
   public recipeVolumeOptions: string[] = ['liters', 'milliliters', 'gallons', 'fluid ounces', 'grams' ,'kilograms', 'pounds', 'ounces'];
   public selectedRecipe = Number(localStorage.getItem('selectedRecipeId')) || null;
   public currentFamilyName = localStorage.getItem('familyName')?.toUpperCase();
+  public numOfRecipes: number = 0;
+  public sub: Subscription;
 
   private recipeSubject: Subject<Recipe> = new Subject();
   public recipe$: Observable<Recipe> = this.recipeSubject.asObservable();
@@ -39,9 +41,24 @@ export class RecipeService {
   private ingredientsURL = 'http://localhost:8080/ingredient';
 
   constructor(public ui: UiService, public http: HttpClient) {
-    this.getRecipes();
-    this.getAllIngredients();
+    this.sub = this.recipesDTO$
+    .pipe(
+      map(recipe => recipe.filter((recipeId: RecipeDTO) => recipeId.account.id! === this.ui.currentUserId)))
+    .subscribe({
+      next: recipesDTO => {
+        this.numOfRecipes = recipesDTO.length;
+      },
+      error: err => {
+        console.log(err);
+        this.ui.onError('Error getting recipes');
+      }});
+      this.getRecipesDTO();
+      this.getRecipes();
+      this.getAllIngredients();
    }
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 
   // POST
   userId = Number(localStorage.getItem('userAccountId'))
