@@ -2,10 +2,9 @@ import { Component, OnDestroy } from '@angular/core';
 import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { Recipe } from 'src/app/models/Recipe';
 import { RecipeDTO } from 'src/app/models/modelsDTO/RecipeDTO';
 import { AccountService } from 'src/app/services/account.service';
-import { filter, map, Subscription, tap } from 'rxjs';
+import {  map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipe',
@@ -21,6 +20,7 @@ export class RecipeComponent implements OnDestroy{
       this.recipeService.getRecipesDTO();
       
       this.recipeSubscription= this.recipeService.recipesDTO$
+
         // only get User Recipes for display
         .pipe(
           map(recipe => recipe.filter((recipeId: RecipeDTO) => recipeId.account.id! === this.ui.currentUserId)))

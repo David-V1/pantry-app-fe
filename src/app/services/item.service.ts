@@ -3,7 +3,7 @@ import { UiService } from './ui.service';
 import { PageName } from '../enums/PageEnum';
 import { Item } from '../models/Item';
 import { HttpClient } from '@angular/common/http';
-import {  map, Observable, Subject, take, tap} from 'rxjs';
+import {  Observable, Subject, take } from 'rxjs';
 import { ItemDTO } from '../models/modelsDTO/ItemDTO';
 
 @Injectable({

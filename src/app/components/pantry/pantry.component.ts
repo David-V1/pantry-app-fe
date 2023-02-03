@@ -3,7 +3,7 @@ import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { Item } from 'src/app/models/Item';
 import {ItemService} from 'src/app/services/item.service';
-import { map, pipe, Subscription, tap } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { ItemDTO } from 'src/app/models/modelsDTO/ItemDTO';
 
 @Component({
@@ -13,7 +13,6 @@ import { ItemDTO } from 'src/app/models/modelsDTO/ItemDTO';
 })
 export class PantryComponent implements OnDestroy {
   public pageName = PageName;
-  // public items: Item[] = []; // This is the original line
   public items: ItemDTO[] = [];
   public categories: string[] = [];
   itemSubscription: Subscription;
@@ -29,7 +28,6 @@ export class PantryComponent implements OnDestroy {
     )
     .subscribe(itemsDTO =>{ 
       this.items = itemsDTO
-      // console.log(this.items)
     });
     this.itemService.getAllItemsDTO();
   }

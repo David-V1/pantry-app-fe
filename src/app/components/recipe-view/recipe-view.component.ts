@@ -7,7 +7,7 @@ import { ItemService } from 'src/app/services/item.service';
 import { Item } from 'src/app/models/Item';
 import { Ingredient } from 'src/app/models/Ingredient';
 import { IngredientDTO } from 'src/app/models/modelsDTO/IngredientDTO';
-import { combineLatest, distinct, filter, map, Observable, of, retry, Subscription, take, tap } from 'rxjs';
+import { combineLatest, map, retry, take } from 'rxjs';
 import { ItemDTO } from 'src/app/models/modelsDTO/ItemDTO';
 
 @Component({
@@ -60,7 +60,6 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
     this.recipeService.getRecipeById(Number(localStorage.getItem('selectedRecipeId')));
     this.recipeService.getAllIngredients();
     this.itemService.getAllItems();
-    // this.bindPantryItemsAndRecipeIngredients(); // previous iteration
     this.selectedRecipeIngredients$.subscribe(ingredients => {
       this.currentSelectedIngredients = ingredients;
     })
@@ -70,7 +69,7 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     setTimeout(() => {
-    this.partitionPantryItemForHttpOutcome(), // moved to onCookRecipe();
+    this.partitionPantryItemForHttpOutcome(),
       this.isFamilyName();
     }, 500);
 
@@ -93,7 +92,7 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
     ),retry(1)) // retry() when updating Recipe.
 
 
-  // NEW ITERATION TEST from the ABOVE CODE
+  // NEW ITERATION - 
   matchingPantryItems$ = combineLatest([this.itemService.itemsDTO$, this.selectedRecipeIngredients$])
   .pipe(
     map(([items, ingredients]) => {
@@ -103,16 +102,15 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
       });
       let matchingItems = items.filter(item => {
         //parsing only logged in account items
-        // if (item.account.id !== this.ui.currentUserId) return false;
+
         if (item.name.slice(-1) === 's' && item.account.id === this.ui.currentUserId) {
           let itemName = item.name.slice(0, -1).toLocaleLowerCase()
           return ingredientNames.includes(itemName)
         }
-        //also need to check this path to only return logged in accout user.
         if (item.account.id === this.ui.currentUserId){
           return ingredientNames.includes(item.name.toLocaleLowerCase())
         }
-        // return ingredientNames.includes(item.name.toLocaleLowerCase())
+
         return;
       });
       return matchingItems;
@@ -121,31 +119,6 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
       this.currentPantryMatchingItems = matchingPantry;
     })
     
-  //OLD METHOD
-  // public bindPantryItemsAndRecipeIngredients(){
-  //   combineLatest([this.itemService.items$, this.selectedRecipeIngredients$]).pipe(
-  //     map(([items, ingredients]) => {
-  //       let ingredientNames = ingredients.map(y => {
-  //         if (y.name.slice(-1) === 's') return y.name.slice(0, -1).toLocaleLowerCase()
-  //         return y.name.toLocaleLowerCase()
-  //       });
-  //       let matchingItems = items.filter(item => {
-  //         if (item.name.slice(-1) === 's') {
-  //           let itemName = item.name.slice(0, -1).toLocaleLowerCase()
-  //           return ingredientNames.includes(itemName)
-  //         }
-  //         return ingredientNames.includes(item.name.toLocaleLowerCase())
-  //       });
-  //       return matchingItems;
-  //     })
-  //   ).subscribe({
-  //     next: (items) => {
-  //       this.itemsToDelete = items;
-
-  //     },
-  //     error: (err) => console.log(err),
-  //   })
-  // }
   
   public showEditIngredient(ingredientid:number): void {
     this.currentIngredientId = ingredientid;
@@ -180,7 +153,6 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
   }
 
   public onCookRecipe(): void {
-    //this.partitionPantryItemForHttpOutcome(); //Moved to onInit
     if (this.itemssToDelete.size) {
       this.itemService.deletePantryItemsOnCook(this.itemssToDelete);
       
@@ -264,9 +236,9 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
   //Creating Recipe instruction steps 1.) 2.) 3.) etc
   public instructionParagraphs(instructions: string): string[] {
     let steps: string[] = [];
-    this.paragraphs = instructions.split(/[\r\n]+/); // split on new lines
+    this.paragraphs = instructions.split(/[\r\n]+/);
     this.paragraphs.forEach((paragraph, index) => {
-      steps.push(`Step ${index + 1}.) ${paragraph}`)
+      steps.push(`Step  ${index + 1}.) ${paragraph}`)
     })
     return steps;
   }
@@ -320,9 +292,6 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
         return this.pantryItemsReadyForUpdate;
       })
     })
-    console.log('Items to delete: ', this.itemssToDelete)
-    console.log('Items to update w/ original QTY: ', this.itemsToUpdate)
-    console.log('Items to update: ', this.pantryItemsReadyForUpdate)
   }
 
   ngOnDestroy(): void {

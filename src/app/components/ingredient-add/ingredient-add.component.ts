@@ -3,9 +3,7 @@ import { UiService } from 'src/app/services/ui.service';
 import { PageName } from 'src/app/enums/PageEnum';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Ingredient } from 'src/app/models/Ingredient';
-import { BehaviorSubject, of, Subject } from 'rxjs';
 import { Recipe } from 'src/app/models/Recipe';
-import { RecipeDTO } from 'src/app/models/modelsDTO/RecipeDTO';
 
 @Component({
   selector: 'app-ingredient-add',
@@ -35,13 +33,10 @@ export class IngredientAddComponent {
     .pipe().subscribe((recipe: Recipe) => {
       this.selectedRecipe = recipe;
     });
-    
-
   }
 
   addIngredient() {
     this.addedIngredients.push(this.newIngredient);
-    // if (this.recipeService.selectedRecipe === null){
     if (Number(localStorage.getItem('selectedRecipeId')) === null){
       this.ui.onError('Recipe not selected')
       return;

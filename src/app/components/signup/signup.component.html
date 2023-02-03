@@ -1,33 +1,5 @@
 <div class="input-container">
     <div class="input-wrapper">
-        <!-- old method -->
-        <!-- Family Dropdown -->
-        <!-- <div class="dropdown-menu" *ngIf="!seeAddFamily">
-            <label for="family-names"> Select Family</label>
-
-            <select [(ngModel)]="newAccount.familyName"
-                name="family-names" id="family-names">
-                <option  *ngFor="let name of familyNames" [value]="name">{{name}}</option>
-            </select>
-
-            <p>Don't see your family name? 
-            <button id="new-family-button" (click)="toggleAddFamily()">Add New Family</button>
-            </p>
-        </div> -->
-
-        <!-- old method -->
-        <!-- Add New Family name -->
-        <!-- <div class="add-family-container" *ngIf="seeAddFamily">
-            <p>See dropdown-menu
-            <button id="new-family-button" (click)="toggleAddFamily()">dropdown-menu</button>
-            </p>
-            <br>
-            <small>Add New Family</small>
-            <input [(ngModel)]="newAccount.familyName" type="text" name="family-name" id="family-signup" placeholder="Family name" >
-            
-        </div> -->
-        
-
         <!-- inputs -->
         <div class="input-bx">
             <span>Add New Family</span>
@@ -49,12 +21,5 @@
             (click)="ui.changePage(pageName.LOGIN)">Log In</button>
             </p>
         </div>
-        <!-- old method -->
-        <!-- <button type="submit" (click)="createAccount(); ui.changePage(pageName.LOGIN)"> Sign Up</button>
-        <p>Already have an account?
-            <button id="signup-button"
-            (click)="ui.changePage(pageName.LOGIN)">Log In</button>
-        </p> -->
-
     </div>
 </div>
